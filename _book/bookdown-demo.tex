@@ -1,3 +1,6 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
 \documentclass[]{book}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
@@ -6,12 +9,9 @@
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
 \else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
+  \usepackage{unicode-math}
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
 % use upquote if available, for straight quotes in verbatim environments
@@ -21,16 +21,19 @@
 \usepackage[]{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
-\usepackage[unicode=true]{hyperref}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
 \hypersetup{
             pdftitle={Learning R for Clinical Trial Data},
             pdfauthor={Maya Gans},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{natbib}
-\bibliographystyle{apalike}
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -40,40 +43,40 @@
 \usepackage{framed}
 \definecolor{shadecolor}{RGB}{248,248,248}
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
 % Fix footnotes in tables (requires footnote package)
-\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{long table}}{}
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -83,12 +86,6 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -116,10 +113,12 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
 
 \title{Learning R for Clinical Trial Data}
 \author{Maya Gans}
-\date{2020-02-03}
+\date{2020-03-12}
 
 \begin{document}
 \maketitle
@@ -128,14 +127,13 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\chapter{Preface}\label{preface}
+\hypertarget{preface}{%
+\chapter{Preface}\label{preface}}
 
-This book is geared towards people who are bravely taking the step
-towards learning R but have yet to even download R on their local
-machines.
+This book is geared towards people who are bravely taking the step towards learning R but have yet to even download R on their local machines.
 
-\section{The book will walk you
-through:}\label{the-book-will-walk-you-through}
+\hypertarget{the-book-will-walk-you-through}{%
+\section{The book will walk you through:}\label{the-book-will-walk-you-through}}
 
 \begin{itemize}
 \tightlist
@@ -157,32 +155,20 @@ through:}\label{the-book-will-walk-you-through}
   Use the generated tables and plots to create a report
 \end{itemize}
 
-\chapter{Getting Set Up with R}\label{getting-set-up-with-r}
+\hypertarget{getting-set-up-with-r}{%
+\chapter{Getting Set Up with R}\label{getting-set-up-with-r}}
 
-\section{Setup instructions}\label{setup-instructions}
+\hypertarget{setup-instructions}{%
+\section{Setup instructions}\label{setup-instructions}}
 
-R and RStudio are separate downloads and installations. R is the
-underlying statistical computing environment, but using R alone is no
-fun. RStudio is a graphical integrated development environment (IDE)
-that makes using R much easier and more interactive. You need to install
-R before you install RStudio. After installing both programs, you will
-need to install the \texttt{tidyverse} and \texttt{haven} packages from
-within RStudio. Follow the instructions below for your operating system,
-and then follow the instructions to install \texttt{tidyverse} and
-\texttt{haven}.
+R and RStudio are separate downloads and installations. R is the underlying statistical computing environment, but using R alone is no fun. RStudio is a graphical integrated development environment (IDE) that makes using R much easier and more interactive. You need to install R before you install RStudio. After installing both programs, you will need to install the \texttt{tidyverse} and \texttt{haven} packages from within RStudio. Follow the instructions below for your operating system, and then follow the instructions to install \texttt{tidyverse} and \texttt{haven}.
 
-\subsection{Windows}\label{windows}
+\hypertarget{windows}{%
+\subsection{Windows}\label{windows}}
 
-If you already have R and RStudio installed Open RStudio, and click on
-``Help'' \textgreater{} ``Check for updates''. If a new version is
-available, quit RStudio, and download the latest version for RStudio. To
-check which version of R you are using, start RStudio and the first
-thing that appears in the console indicates the version of R you are
-running. Alternatively, you can type sessionInfo(), which will also
-display which version of R you are running. Go on the CRAN website and
-check whether a more recent version is available. If so, please download
-and install it. You can check here for more information on how to remove
-old versions from your system if you wish to do so.
+If you already have R and RStudio installed
+Open RStudio, and click on ``Help'' \textgreater{} ``Check for updates''. If a new version is available, quit RStudio, and download the latest version for RStudio.
+To check which version of R you are using, start RStudio and the first thing that appears in the console indicates the version of R you are running. Alternatively, you can type sessionInfo(), which will also display which version of R you are running. Go on the CRAN website and check whether a more recent version is available. If so, please download and install it. You can check here for more information on how to remove old versions from your system if you wish to do so.
 
 If you don't have R and RStudio installed:
 
@@ -195,27 +181,20 @@ If you don't have R and RStudio installed:
 \item
   Go to the RStudio download page
 \item
-  Under Installers select RStudio x.yy.zzz - Windows Vista/7/8/10 (where
-  x, y, and z represent version numbers)
+  Under Installers select RStudio x.yy.zzz - Windows Vista/7/8/10 (where x, y, and z represent version numbers)
 \item
   Double click the file to install it
 \end{itemize}
 
-Once it's installed, open RStudio to make sure it works and you don't
-get any error messages.
+Once it's installed, open RStudio to make sure it works and you don't get any error messages.
 
-\subsection{macOS}\label{macos}
+\hypertarget{macos}{%
+\subsection{macOS}\label{macos}}
 
-If you already have R and RStudio installed Open RStudio, and click on
-``Help'' \textgreater{} ``Check for updates''. If a new version is
-available, quit RStudio, and download the latest version for RStudio.
+If you already have R and RStudio installed
+Open RStudio, and click on ``Help'' \textgreater{} ``Check for updates''. If a new version is available, quit RStudio, and download the latest version for RStudio.
 
-To check the version of R you are using, start RStudio and the first
-thing that appears on the terminal indicates the version of R you are
-running. Alternatively, you can type sessionInfo(), which will also
-display which version of R you are running. Go on the CRAN website and
-check whether a more recent version is available. If so, please download
-and install it.
+To check the version of R you are using, start RStudio and the first thing that appears on the terminal indicates the version of R you are running. Alternatively, you can type sessionInfo(), which will also display which version of R you are running. Go on the CRAN website and check whether a more recent version is available. If so, please download and install it.
 
 If you don't have R and RStudio installed:
 
@@ -232,42 +211,32 @@ If you don't have R and RStudio installed:
 \item
   Go to the RStudio download page
 \item
-  Under Installers select RStudio x.yy.zzz - Mac OS X 10.6+ (64-bit)
-  (where x, y, and z represent version numbers)
+  Under Installers select RStudio x.yy.zzz - Mac OS X 10.6+ (64-bit) (where x, y, and z represent version numbers)
 \item
   Double click the file to install RStudio
 \end{itemize}
 
-Once it's installed, open RStudio to make sure it works and you don't
-get any error messages.
+Once it's installed, open RStudio to make sure it works and you don't get any error messages.
 
-\section{Linux}\label{linux}
+\hypertarget{linux}{%
+\section{Linux}\label{linux}}
 
-Follow the instructions for your distribution from CRAN, they provide
-information to get the most recent version of R for common
-distributions. For most distributions, you could use your package
-manager (e.g., for Debian/Ubuntu run sudo apt-get install r-base, and
-for Fedora sudo yum install R), but we don't recommend this approach as
-the versions provided by this are usually out of date. In any case, make
-sure you have at least R 3.3.1.
+Follow the instructions for your distribution from CRAN, they provide information to get the most recent version of R for common distributions. For most distributions, you could use your package manager (e.g., for Debian/Ubuntu run sudo apt-get install r-base, and for Fedora sudo yum install R), but we don't recommend this approach as the versions provided by this are usually out of date. In any case, make sure you have at least R 3.3.1.
 
 \begin{itemize}
 \tightlist
 \item
   Go to the RStudio download page
 \item
-  Under Installers select the version that matches your distribution,
-  and install it with your preferred method (e.g., with Debian/Ubuntu
-  sudo dpkg -i rstudio-x.yy.zzz-amd64.deb at the terminal).
+  Under Installers select the version that matches your distribution, and install it with your preferred method (e.g., with Debian/Ubuntu sudo dpkg -i rstudio-x.yy.zzz-amd64.deb at the terminal).
 \item
-  Once it's installed, open RStudio to make sure it works and you don't
-  get any error messages.
+  Once it's installed, open RStudio to make sure it works and you don't get any error messages.
 \end{itemize}
 
-\section{For everyone}\label{for-everyone}
+\hypertarget{for-everyone}{%
+\section{For everyone}\label{for-everyone}}
 
-After installing R and RStudio, you need to install the
-\texttt{tidyverse} and \texttt{haven} packages.
+After installing R and RStudio, you need to install the \texttt{tidyverse} and \texttt{haven} packages.
 
 After starting RStudio, at the console type:
 
@@ -275,20 +244,14 @@ After starting RStudio, at the console type:
 install.packages(c("tidyverse", "haven"))
 \end{verbatim}
 
-You can also do this by going to Tools -\textgreater{} Install Packages
-and typing the names of the packages separated by a comma.
+You can also do this by going to Tools -\textgreater{} Install Packages and typing the names of the packages separated by a comma.
 
-\chapter{RStudio IDE}\label{intro}
+\hypertarget{intro}{%
+\chapter{RStudio IDE}\label{intro}}
 
-The RStudio IDE open-source product is free under the Affero General
-Public License (AGPL) v3. The RStudio IDE is also available with a
-commercial license and priority email support from RStudio, Inc.
+The RStudio IDE open-source product is free under the Affero General Public License (AGPL) v3. The RStudio IDE is also available with a commercial license and priority email support from RStudio, Inc.
 
-We will use RStudio IDE to write code, navigate the files on our
-computer, inspect the variables we are going to create, and visualize
-the plots we will generate. RStudio can also be used for other things
-(e.g., version control, developing packages, writing Shiny apps) that
-will not be covered in this book.
+We will use RStudio IDE to write code, navigate the files on our computer, inspect the variables we are going to create, and visualize the plots we will generate. RStudio can also be used for other things (e.g., version control, developing packages, writing Shiny apps) that will not be covered in this book.
 
 \includegraphics[width=19.97in]{/Users/mayagans/Desktop/Cytel_Bookdown/bookdown-demo-master/_book/bookdown-demo_files/figure-html/rstudio-screenshot}
 
@@ -298,8 +261,7 @@ RStudio is divided into 4 ``Panes'':
 \def\labelenumi{\arabic{enumi})}
 \tightlist
 \item
-  The Source for your scripts and documents (top-left, in the default
-  layout),
+  The Source for your scripts and documents (top-left, in the default layout),
 \item
   Your Environment/History (top-right)
 \item
@@ -308,36 +270,21 @@ RStudio is divided into 4 ``Panes'':
   The R Console (bottom-left).
 \end{enumerate}
 
-The placement of these panes and their content can be customized (see
-menu, Tools -\textgreater{} Global Options -\textgreater{} Pane Layout).
+The placement of these panes and their content can be customized (see menu, Tools -\textgreater{} Global Options -\textgreater{} Pane Layout).
 
-One of the advantages of using RStudio is that all the information you
-need to write code is available in a single window. Additionally, with
-many shortcuts, autocompletion, and highlighting for the major file
-types you use while developing in R, RStudio will make typing easier and
-less error-prone.
+One of the advantages of using RStudio is that all the information you need to write code is available in a single window. Additionally, with many shortcuts, autocompletion, and highlighting for the major file types you use while developing in R, RStudio will make typing easier and less error-prone.
 
-\section{Getting set up}\label{getting-set-up}
+\hypertarget{getting-set-up}{%
+\section{Getting set up}\label{getting-set-up}}
 
-It is good practice to keep a set of related data, analyses, and text
-self-contained in a single folder, called the working directory. All of
-the scripts within this folder can then use relative paths to files that
-indicate where inside the project a file is located (as opposed to
-absolute paths, which point to where a file is on a specific computer).
-Working this way makes it a lot easier to move your project around on
-your computer and share it with others without worrying about whether or
-not the underlying scripts will still work.
+It is good practice to keep a set of related data, analyses, and text self-contained in a single folder, called the working directory. All of the scripts within this folder can then use relative paths to files that indicate where inside the project a file is located (as opposed to absolute paths, which point to where a file is on a specific computer). Working this way makes it a lot easier to move your project around on your computer and share it with others without worrying about whether or not the underlying scripts will still work.
 
-RStudio provides a helpful set of tools to do this through its
-``Projects'' interface, which not only creates a working directory for
-you, but also remembers its location (allowing you to quickly navigate
-to it) and optionally preserves custom settings and open files to make
-it easier to resume work after a break. Go through the steps for
-creating an ``R Project'' for this tutorial below.
+RStudio provides a helpful set of tools to do this through its ``Projects'' interface, which not only creates a working directory for you, but also remembers its location (allowing you to quickly navigate to it) and optionally preserves custom settings and open files to make it easier to resume work after a break. Go through the steps for creating an ``R Project'' for this tutorial below.
 
 \includegraphics[width=24.97in]{/Users/mayagans/Desktop/Cytel_Bookdown/bookdown-demo-master/_book/bookdown-demo_files/figure-html/rstudio-newproject}
 
-\section{Start RStudio.}\label{start-rstudio.}
+\hypertarget{start-rstudio.}{%
+\section{Start RStudio.}\label{start-rstudio.}}
 
 \begin{itemize}
 \tightlist
@@ -346,31 +293,22 @@ creating an ``R Project'' for this tutorial below.
 \item
   Choose New Directory, then New Project.
 \item
-  Enter a name for this new folder (or ``directory''), and choose a
-  convenient location for it.
+  Enter a name for this new folder (or ``directory''), and choose a convenient location for it.
 \item
   Click on Create Project.
 \end{itemize}
 
-\section{Optional Preferences}\label{optional-preferences}
+\hypertarget{optional-preferences}{%
+\section{Optional Preferences}\label{optional-preferences}}
 
-RStudio's default preferences generally work well, but saving a
-workspace to .RData can be cumbersome, especially if you are working
-with larger datasets. To turn that off, go to Tools --\textgreater{}
-`Global Options' and select the `Never' option for `Save workspace to
-.RData' on exit.' This step is optional, but if you love something it's
-sometimes best to let it go.
+RStudio's default preferences generally work well, but saving a workspace to .RData can be cumbersome, especially if you are working with larger datasets. To turn that off, go to Tools --\textgreater{} `Global Options' and select the `Never' option for `Save workspace to .RData' on exit.' This step is optional, but if you love something it's sometimes best to let it go.
 
 \begin{center}\includegraphics[width=8.33in]{/Users/mayagans/Desktop/Cytel_Bookdown/bookdown-demo-master/_book/bookdown-demo_files/figure-html/rstudio-preferences} \end{center}
 
-\section{Organizing your working
-directory}\label{organizing-your-working-directory}
+\hypertarget{organizing-your-working-directory}{%
+\section{Organizing your working directory}\label{organizing-your-working-directory}}
 
-Using a consistent folder structure across your projects will help keep
-things organized, and will also make it easy to find/file things in the
-future. This can be especially helpful when you have multiple projects.
-In general, you may create directories (folders) for scripts, data, and
-documents.
+Using a consistent folder structure across your projects will help keep things organized, and will also make it easy to find/file things in the future. This can be especially helpful when you have multiple projects. In general, you may create directories (folders) for scripts, data, and documents.
 
 \begin{itemize}
 \tightlist
@@ -380,11 +318,7 @@ documents.
   data/
 \end{itemize}
 
-Use these folders to store raw data and intermediate datasets you may
-create for the need of a particular analysis. For the sake of
-transparency and provenance, you should always keep a copy of your raw
-data accessible and do as much of your data cleanup and preprocessing
-programmatically (i.e., with scripts, rather than manually) as possible.
+Use these folders to store raw data and intermediate datasets you may create for the need of a particular analysis. For the sake of transparency and provenance, you should always keep a copy of your raw data accessible and do as much of your data cleanup and preprocessing programmatically (i.e., with scripts, rather than manually) as possible.
 
 \begin{itemize}
 \tightlist
@@ -392,129 +326,73 @@ programmatically (i.e., with scripts, rather than manually) as possible.
   report.Rmd
 \end{itemize}
 
-We will be using an RMarkdown file to create our report. This allows for
-inline coding with plot and table outputs. We are going to keep the
-report in the root of our working directory because we are only going to
-use one file and it will make things easier. Outside of this
-demonstraition you'd most likely create a folder of reports and title
-them accordingly.
+We will be using an RMarkdown file to create our report. This allows for inline coding with plot and table outputs. We are going to keep the report in the root of our working directory because we are only going to use one file and it will make things easier. Outside of this demonstraition you'd most likely create a folder of reports and title them accordingly.
 
 \begin{itemize}
 \tightlist
 \item
-  Additional (sub)directories depending on your project needs (like
-  scripts and functions)
+  Additional (sub)directories depending on your project needs (like scripts and functions)
 \end{itemize}
 
-We will need a \texttt{data\_raw/} folder for our demo project to store
-our raw \texttt{sas7bdat} files, and we will use \texttt{data/} for when
-we learn how to export data as CSV files, and a \texttt{report.Rmd} file
-for our generated report containing figures and tables.
+We will need a \texttt{data\_raw/} folder for our demo project to store our raw \texttt{sas7bdat} files, and we will use \texttt{data/} for when we learn how to export data as CSV files, and a \texttt{report.Rmd} file for our generated report containing figures and tables.
 
-Under the Files tab on the right of the screen, click on New Folder and
-create a folder named data\_raw within your newly created working
-directory (e.g., \textasciitilde{}/cdisc-demo/). (Alternatively, type
-dir.create(``data\_raw'') at your R console.)
+Under the Files tab on the right of the screen, click on New Folder and create a folder named data\_raw within your newly created working directory (e.g., \textasciitilde{}/cdisc-demo/). (Alternatively, type dir.create(``data\_raw'') at your R console.)
 
-Repeat these operations to create a data folder. Under the Files tab you
-can click New File then RMarkdown and create the \texttt{report.Rmd}.
+Repeat these operations to create a data folder. Under the Files tab you can click New File then RMarkdown and create the \texttt{report.Rmd}.
 
 Your working directory should now look like this:
 
 \begin{center}\includegraphics[width=18.92in]{/Users/mayagans/Desktop/Cytel_Bookdown/bookdown-demo-master/_book/bookdown-demo_files/figure-html/rstudio-filestructure} \end{center}
 
-\chapter{Interacting with R}\label{interacting-with-r}
+\hypertarget{exercise}{%
+\section{Exercise}\label{exercise}}
 
-The basis of programming is that we write down instructions for the
-computer to follow, and then we tell the computer to follow those
-instructions. We write, or code, instructions in R because it is a
-common language that both the computer and we can understand. We call
-the instructions commands and we tell the computer to follow the
-instructions by executing (also called running) those commands.
+Download the ADSL and ADAE from XYZ and add it to your \texttt{raw\_data} folder
 
-There are two main ways of interacting with R: by using the console or
-by using script files (plain text files that contain your code). The
-console pane (in RStudio, the bottom left panel) is the place where
-commands written in the R language can be typed and executed immediately
-by the computer. It is also where the results will be shown for commands
-that have been executed. You can type commands directly into the console
-and press Enter to execute those commands, but they will be forgotten
-when you close the session.
+\hypertarget{interacting-with-r}{%
+\chapter{Interacting with R}\label{interacting-with-r}}
 
-Because we want our code and workflow to be reproducible, it is better
-to type the commands we want in the script editor, and save the script.
-This way, there is a complete record of what we did, and anyone
-(including our future selves!) can easily replicate the results on their
-computer.
+The basis of programming is that we write down instructions for the computer to follow, and then we tell the computer to follow those instructions. We write, or code, instructions in R because it is a common language that both the computer and we can understand. We call the instructions commands and we tell the computer to follow the instructions by executing (also called running) those commands.
 
-RStudio allows you to execute commands directly from the script editor
-by using the \texttt{Ctrl\ +\ Enter} shortcut (on Macs,
-\texttt{Cmd\ +\ Return} will work, too). The command on the current line
-in the script (indicated by the cursor) or all of the commands in the
-currently selected text will be sent to the console and executed when
-you press Ctrl + Enter. You can find other keyboard shortcuts in this
-RStudio cheatsheet about the RStudio IDE.
+There are two main ways of interacting with R: by using the console or by using script files (plain text files that contain your code). The console pane (in RStudio, the bottom left panel) is the place where commands written in the R language can be typed and executed immediately by the computer. It is also where the results will be shown for commands that have been executed. You can type commands directly into the console and press Enter to execute those commands, but they will be forgotten when you close the session.
 
-At some point in your analysis you may want to check the content of a
-variable or the structure of an object, without necessarily keeping a
-record of it in your script. You can type these commands and execute
-them directly in the console. RStudio provides the Ctrl + 1 and Ctrl + 2
-shortcuts allow you to jump between the script and the console panes.
+Because we want our code and workflow to be reproducible, it is better to type the commands we want in the script editor, and save the script. This way, there is a complete record of what we did, and anyone (including our future selves!) can easily replicate the results on their computer.
 
-If R is ready to accept commands, the R console shows a \textgreater{}
-prompt. If it receives a command (by typing, copy-pasting or sent from
-the script editor using Ctrl + Enter), R will try to execute it, and
-when ready, will show the results and come back with a new
-\textgreater{} prompt to wait for new commands.
+RStudio allows you to execute commands directly from the script editor by using the \texttt{Ctrl\ +\ Enter} shortcut (on Macs, \texttt{Cmd\ +\ Return} will work, too). The command on the current line in the script (indicated by the cursor) or all of the commands in the currently selected text will be sent to the console and executed when you press Ctrl + Enter. You can find other keyboard shortcuts in this RStudio cheatsheet about the RStudio IDE.
 
-If R is still waiting for you to enter more data because it isn't
-complete yet, the console will show a + prompt. It means that you
-haven't finished entering a complete command. This is because you have
-not `closed' a parenthesis or quotation, i.e.~you don't have the same
-number of left-parentheses as right-parentheses, or the same number of
-opening and closing quotation marks. When this happens, and you thought
-you finished typing your command, click inside the console window and
-press Esc; this will cancel the incomplete command and return you to the
-\textgreater{} prompt.
+At some point in your analysis you may want to check the content of a variable or the structure of an object, without necessarily keeping a record of it in your script. You can type these commands and execute them directly in the console. RStudio provides the Ctrl + 1 and Ctrl + 2 shortcuts allow you to jump between the script and the console panes.
 
-\section{Seeking help}\label{seeking-help}
+If R is ready to accept commands, the R console shows a \textgreater{} prompt. If it receives a command (by typing, copy-pasting or sent from the script editor using Ctrl + Enter), R will try to execute it, and when ready, will show the results and come back with a new \textgreater{} prompt to wait for new commands.
 
-Use the built-in RStudio help interface to search for more information
-on R functions RStudio help interface. This panel by default can be
-found at the lower right hand panel of RStudio. As seen in the
-screenshot, by typing the word ``Mean'', RStudio tries to also give a
-number of suggestions that you might be interested in. The description
-is then shown in the display window.
+If R is still waiting for you to enter more data because it isn't complete yet, the console will show a + prompt. It means that you haven't finished entering a complete command. This is because you have not `closed' a parenthesis or quotation, i.e.~you don't have the same number of left-parentheses as right-parentheses, or the same number of opening and closing quotation marks. When this happens, and you thought you finished typing your command, click inside the console window and press Esc; this will cancel the incomplete command and return you to the \textgreater{} prompt.
 
-If you need help with a specific function, let's say \texttt{barplot()},
-you can type: \texttt{?barplot}
+\hypertarget{seeking-help}{%
+\section{Seeking help}\label{seeking-help}}
 
-If you just need to remind yourself of the names of the arguments, you
-can use: \texttt{args(lm)}
+Use the built-in RStudio help interface to search for more information on R functions
+RStudio help interface. This panel by default can be found at the lower right hand panel of RStudio. As seen in the screenshot, by typing the word ``Mean'', RStudio tries to also give a number of suggestions that you might be interested in. The description is then shown in the display window.
 
-If you are looking for a function to do a particular task, you can use
-the help.search() function, which is called by the double question mark
-\texttt{??}. However, this only looks through the installed packages for
-help pages with a match to your search request
+If you need help with a specific function, let's say \texttt{barplot()}, you can type: \texttt{?barplot}
 
-If you can't find what you are looking for, you can use the
-rdocumentation.org website that searches through the help files across
-all packages available.
+If you just need to remind yourself of the names of the arguments, you can use:
+\texttt{args(lm)}
 
-Finally, a generic Google or internet search
-\texttt{R\ \textless{}task\textgreater{}} will often either send you to
-the appropriate package documentation or a helpful forum where someone
-else has already asked your question.
+If you are looking for a function to do a particular task, you can use the help.search() function, which is called by the double question mark \texttt{??}. However, this only looks through the installed packages for help pages with a match to your search request
 
-\chapter{Introduction to R}\label{introduction-to-r}
+If you can't find what you are looking for, you can use the rdocumentation.org website that searches through the help files across all packages available.
 
-\section{Learning Objectives}\label{learning-objectives}
+Finally, a generic Google or internet search \texttt{R\ \textless{}task\textgreater{}} will often either send you to the appropriate package documentation or a helpful forum where someone else has already asked your question.
+
+\hypertarget{introduction-to-r}{%
+\chapter{Introduction to R}\label{introduction-to-r}}
+
+\hypertarget{learning-objectives}{%
+\section{Learning Objectives}\label{learning-objectives}}
 
 \begin{itemize}
 \tightlist
 \item
-  Define the following terms as they relate to R: object, assign, call,
-  function, arguments, options.
+  Define the following terms as they relate to R: object, assign, call, function, arguments, options.
 \item
   Assign values to objects in R.
 \item
@@ -533,7 +411,8 @@ else has already asked your question.
   Analyze vectors with missing data.
 \end{itemize}
 
-\section{Creating objects in R}\label{creating-objects-in-r}
+\hypertarget{creating-objects-in-r}{%
+\section{Creating objects in R}\label{creating-objects-in-r}}
 
 You can get output from R simply by typing math in the console:
 
@@ -547,9 +426,7 @@ You can get output from R simply by typing math in the console:
 ## [1] 8
 \end{verbatim}
 
-However, to do useful and interesting things, we need to assign values
-to objects. To create an object, we need to give it a name followed by
-the assignment operator \textless{}-, and the value we want to give it:
+However, to do useful and interesting things, we need to assign values to objects. To create an object, we need to give it a name followed by the assignment operator \textless{}-, and the value we want to give it:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -557,60 +434,24 @@ the assignment operator \textless{}-, and the value we want to give it:
 \end{Highlighting}
 \end{Shaded}
 
-\texttt{\textless{}-} is the assignment operator. It assigns values on
-the right to objects on the left. So, after executing
-\texttt{x\ \textless{}-\ 3}, the value of \texttt{x} is \texttt{3}. The
-arrow can be read as 3 \textbf{goes into} \texttt{x}. For historical
-reasons, you can also use = for assignments, but not in every context.
-Because of the slight differences in syntax, it is good practice to
-always use \texttt{\textless{}-} for assignments.
+\texttt{\textless{}-} is the assignment operator. It assigns values on the right to objects on the left. So, after executing \texttt{x\ \textless{}-\ 3}, the value of \texttt{x} is \texttt{3}. The arrow can be read as 3 \textbf{goes into} \texttt{x}. For historical reasons, you can also use = for assignments, but not in every context. Because of the slight differences in syntax, it is good practice to always use \texttt{\textless{}-} for assignments.
 
-In RStudio, typing \texttt{Alt\ +\ -} (push \texttt{Alt} at the same
-time as the \texttt{-} key) will write \texttt{\textless{}-} in a single
-keystroke in a PC, while typing \texttt{Option\ +\ -} (push
-\texttt{Option} at the same time as the \texttt{-} key) does the same in
-a Mac.
+In RStudio, typing \texttt{Alt\ +\ -} (push \texttt{Alt} at the same time as the \texttt{-} key) will write \texttt{\textless{}-} in a single keystroke in a PC, while typing \texttt{Option\ +\ -} (push \texttt{Option} at the same time as the \texttt{-} key) does the same in a Mac.
 
-Objects can be given any name such as \texttt{x},
-\texttt{current\_temperature}, or \texttt{subject\_id}. You want your
-object names to be explicit and not too long. They \textbf{cannot} start
-with a number (\texttt{2x} is not valid, but \texttt{x2} is). R is
-\textbf{case sensitive} (e.g., \texttt{weight\_kg} is different from
-\texttt{Weight\_kg}).
+Objects can be given any name such as \texttt{x}, \texttt{current\_temperature}, or \texttt{subject\_id}. You want your object names to be explicit and not too long. They \textbf{cannot} start with a number (\texttt{2x} is not valid, but \texttt{x2} is). R is \textbf{case sensitive} (e.g., \texttt{weight\_kg} is different from \texttt{Weight\_kg}).
 
-There are some names that cannot be used because they are the names of
-fundamental functions in R (e.g., \texttt{if}, \texttt{else},
-\texttt{for}). In general, even if it's allowed, it's best to not use
-other function names (e.g., \texttt{c}, \texttt{T}, \texttt{mean},
-\texttt{data}, \texttt{df}, \texttt{weights}).
+There are some names that cannot be used because they are the names of fundamental functions in R (e.g., \texttt{if}, \texttt{else}, \texttt{for}). In general, even if it's allowed, it's best to not use other function names (e.g., \texttt{c}, \texttt{T}, \texttt{mean}, \texttt{data}, \texttt{df}, \texttt{weights}).
 
-If in doubt, check the help to see if the name is already in use. It's
-also best to avoid dots (.) within an object name as in my.dataset.
-There are many functions in R with dots in their names for historical
-reasons, but because dots have a special meaning in R (for methods) and
-other programming languages, it's best to avoid them.
+If in doubt, check the help to see if the name is already in use. It's also best to avoid dots (.) within an object name as in my.dataset. There are many functions in R with dots in their names for historical reasons, but because dots have a special meaning in R (for methods) and other programming languages, it's best to avoid them.
 
-It is also recommended to use nouns for object names, and verbs for
-function names. It's important to be consistent in the styling of your
-code (where you put spaces, how you name objects, etc.). Using a
-consistent coding style makes your code clearer to read for your future
-self and your collaborators. In R, three popular style guides are
-\href{https://google.github.io/styleguide/Rguide.html}{Google's},
-\href{\%5Bhttp://jef.works/R-style-guide/}{Jean Fan's} and the
-\href{https://style.tidyverse.org/}{tidyverse's}. You can install the
-\texttt{lintr} package to automatically check for issues in the styling
-of your code.
+It is also recommended to use nouns for object names, and verbs for function names. It's important to be consistent in the styling of your code (where you put spaces, how you name objects, etc.). Using a consistent coding style makes your code clearer to read for your future self and your collaborators. In R, three popular style guides are \href{https://google.github.io/styleguide/Rguide.html}{Google's}, \href{\%5Bhttp://jef.works/R-style-guide/}{Jean Fan's} and the \href{https://style.tidyverse.org/}{tidyverse's}. You can install the \texttt{lintr} package to automatically check for issues in the styling of your code.
 
-\subsection{Objects vs.~variables}\label{objects-vs.variables}
+\hypertarget{objects-vs.variables}{%
+\subsection{Objects vs.~variables}\label{objects-vs.variables}}
 
-What are known as objects in R are known as variables in many other
-programming languages. Depending on the context, object and variable can
-have drastically different meanings. However, in this lesson, the two
-words are used synonymously.
+What are known as objects in R are known as variables in many other programming languages. Depending on the context, object and variable can have drastically different meanings. However, in this lesson, the two words are used synonymously.
 
-When assigning a value to an object, R does not print anything. You can
-force R to print the value by using parentheses or by typing the object
-name:
+When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -638,9 +479,7 @@ name:
 ## [1] 55
 \end{verbatim}
 
-Now that R has \texttt{weight\_kg} in memory, we can do arithmetic with
-it. For instance, we may want to convert this weight into pounds (weight
-in pounds is 2.2 times the weight in kg):
+Now that R has \texttt{weight\_kg} in memory, we can do arithmetic with it. For instance, we may want to convert this weight into pounds (weight in pounds is 2.2 times the weight in kg):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -665,9 +504,7 @@ We can also change an object's value by assigning it a new one:
 ## [1] 126.5
 \end{verbatim}
 
-This means that assigning a value to one object does not change the
-values of other objects For example, let's store the animal's weight in
-pounds in a new object, weight\_lb:
+This means that assigning a value to one object does not change the values of other objects For example, let's store the animal's weight in pounds in a new object, weight\_lb:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -683,53 +520,25 @@ and then change \texttt{weight\_kg} to 100.
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Comments}\label{comments}
+\hypertarget{comments}{%
+\subsection{Comments}\label{comments}}
 
-The comment character in R is \#, anything to the right of a \# in a
-script will be ignored by R. It is useful to leave notes and
-explanations in your scripts. RStudio makes it easy to comment or
-uncomment a paragraph: after selecting the lines you want to comment,
-press at the same time on your keyboard \texttt{Ctrl\ +\ Shift\ +\ C}.
-If you only want to comment out one line, you can put the cursor at any
-location of that line (i.e.~no need to select the whole line), then
-press \texttt{Ctrl\ +\ Shift\ +\ C}.
+The comment character in R is \#, anything to the right of a \# in a script will be ignored by R. It is useful to leave notes and explanations in your scripts. RStudio makes it easy to comment or uncomment a paragraph: after selecting the lines you want to comment, press at the same time on your keyboard \texttt{Ctrl\ +\ Shift\ +\ C}. If you only want to comment out one line, you can put the cursor at any location of that line (i.e.~no need to select the whole line), then press \texttt{Ctrl\ +\ Shift\ +\ C}.
 
-\subsection{Functions and their
-arguments}\label{functions-and-their-arguments}
+\hypertarget{functions-and-their-arguments}{%
+\subsection{Functions and their arguments}\label{functions-and-their-arguments}}
 
-Functions are ``canned scripts'' that automate more complicated sets of
-commands including operations assignments, etc. Many functions are
-predefined, or can be made available by importing R packages (more on
-that later). A function usually takes one or more inputs called
-arguments. Functions often (but not always) return a value. A typical
-example would be the function sqrt(). The input (the argument) must be a
-number, and the return value (in fact, the output) is the square root of
-that number. Executing a function (`running it') is called calling the
-function. An example of a function call is:
+Functions are ``canned scripts'' that automate more complicated sets of commands including operations assignments, etc. Many functions are predefined, or can be made available by importing R packages (more on that later). A function usually takes one or more inputs called arguments. Functions often (but not always) return a value. A typical example would be the function sqrt(). The input (the argument) must be a number, and the return value (in fact, the output) is the square root of that number. Executing a function (`running it') is called calling the function. An example of a function call is:
 
 \begin{verbatim}
 b <- sqrt(a)
 \end{verbatim}
 
-Here, the value of \texttt{a} is given to the \texttt{sqrt()} function,
-the \texttt{sqrt()} function calculates the square root, and returns the
-value which is then assigned to the object \texttt{b}. This function is
-very simple, because it takes just one argument.
+Here, the value of \texttt{a} is given to the \texttt{sqrt()} function, the \texttt{sqrt()} function calculates the square root, and returns the value which is then assigned to the object \texttt{b}. This function is very simple, because it takes just one argument.
 
-The return `value' of a function need not be numerical (like that of
-\texttt{sqrt()}), and it also does not need to be a single item: it can
-be a set of things, or even a dataset. We'll see that when we read data
-files into R.
+The return `value' of a function need not be numerical (like that of \texttt{sqrt()}), and it also does not need to be a single item: it can be a set of things, or even a dataset. We'll see that when we read data files into R.
 
-Arguments can be anything, not only numbers or filenames, but also other
-objects. Exactly what each argument means differs per function, and must
-be looked up in the documentation. Some functions take arguments which
-may either be specified by the user, or, if left out, take on a default
-value: these are called options. Options are typically used to alter the
-way the function operates, such as whether it ignores `bad values', or
-what symbol to use in a plot. However, if you want something specific,
-you can specify a value of your choice which will be used instead of the
-default.
+Arguments can be anything, not only numbers or filenames, but also other objects. Exactly what each argument means differs per function, and must be looked up in the documentation. Some functions take arguments which may either be specified by the user, or, if left out, take on a default value: these are called options. Options are typically used to alter the way the function operates, such as whether it ignores `bad values', or what symbol to use in a plot. However, if you want something specific, you can specify a value of your choice which will be used instead of the default.
 
 Let's try a function that can take multiple arguments: \texttt{round()}.
 
@@ -743,12 +552,7 @@ Let's try a function that can take multiple arguments: \texttt{round()}.
 ## [1] 3
 \end{verbatim}
 
-Here, we've called \texttt{round()} with just one argument,
-\texttt{3.14159}, and it has returned the value \texttt{3}. That's
-because the default is to round to the nearest whole number. If we want
-more digits we can see how to do that by getting information about the
-round function. We can use \texttt{args(round)} to find what arguments
-it takes, or look at the help for this function using \texttt{?round}.
+Here, we've called \texttt{round()} with just one argument, \texttt{3.14159}, and it has returned the value \texttt{3}. That's because the default is to round to the nearest whole number. If we want more digits we can see how to do that by getting information about the round function. We can use \texttt{args(round)} to find what arguments it takes, or look at the help for this function using \texttt{?round}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -767,8 +571,7 @@ it takes, or look at the help for this function using \texttt{?round}.
 \end{Highlighting}
 \end{Shaded}
 
-We see that if we want a different number of digits, we can type
-\texttt{digits\ =\ 2} or however many we want.
+We see that if we want a different number of digits, we can type \texttt{digits\ =\ 2} or however many we want.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -780,8 +583,7 @@ We see that if we want a different number of digits, we can type
 ## [1] 3.14
 \end{verbatim}
 
-If you provide the arguments in the exact same order as they are defined
-you don't have to name them:
+If you provide the arguments in the exact same order as they are defined you don't have to name them:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -805,20 +607,12 @@ And if you do name the arguments, you can switch their order:
 ## [1] 3.14
 \end{verbatim}
 
-It's good practice to put the non-optional arguments (like the number
-you're rounding) first in your function call, and to then specify the
-names of all optional arguments. If you don't, someone reading your code
-might have to look up the definition of a function with unfamiliar
-arguments to understand what you're doing.
+It's good practice to put the non-optional arguments (like the number you're rounding) first in your function call, and to then specify the names of all optional arguments. If you don't, someone reading your code might have to look up the definition of a function with unfamiliar arguments to understand what you're doing.
 
-\section{Vectors and data types}\label{vectors-and-data-types}
+\hypertarget{vectors-and-data-types}{%
+\section{Vectors and data types}\label{vectors-and-data-types}}
 
-A vector is the most common and basic data type in R, and is pretty much
-the workhorse of R. A vector is composed by a series of values, which
-can be either numbers or characters. We can assign a series of values to
-a vector using the \texttt{c()} function. For example we can create a
-vector of animal weights and assign it to a new object
-\texttt{weight\_g}:
+A vector is the most common and basic data type in R, and is pretty much the workhorse of R. A vector is composed by a series of values, which can be either numbers or characters. We can assign a series of values to a vector using the \texttt{c()} function. For example we can create a vector of animal weights and assign it to a new object \texttt{weight\_g}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -844,14 +638,9 @@ A vector can also contain characters:
 ## [1] "mouse" "rat"   "dog"
 \end{verbatim}
 
-The quotes around ``mouse'', ``rat'', etc. are essential here. Without
-the quotes R will assume objects have been created called
-\texttt{mouse}, \texttt{rat} and \texttt{dog}. As these objects don't
-exist in R's memory, there will be an error message.
+The quotes around ``mouse'', ``rat'', etc. are essential here. Without the quotes R will assume objects have been created called \texttt{mouse}, \texttt{rat} and \texttt{dog}. As these objects don't exist in R's memory, there will be an error message.
 
-There are many functions that allow you to inspect the content of a
-vector. \texttt{length()} tells you how many elements are in a
-particular vector:
+There are many functions that allow you to inspect the content of a vector. \texttt{length()} tells you how many elements are in a particular vector:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -873,9 +662,7 @@ particular vector:
 ## [1] 3
 \end{verbatim}
 
-An important feature of a vector, is that all of the elements are the
-same type of data. The function \texttt{class()} indicates the class
-(the type of element) of an object:
+An important feature of a vector, is that all of the elements are the same type of data. The function \texttt{class()} indicates the class (the type of element) of an object:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -897,9 +684,7 @@ same type of data. The function \texttt{class()} indicates the class
 ## [1] "character"
 \end{verbatim}
 
-The function \texttt{str()} provides an overview of the structure of an
-object and its elements. It is a useful function when working with large
-and complex objects:
+The function \texttt{str()} provides an overview of the structure of an object and its elements. It is a useful function when working with large and complex objects:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -921,8 +706,7 @@ and complex objects:
 ##  chr [1:3] "mouse" "rat" "dog"
 \end{verbatim}
 
-You can use the \texttt{c()} function to add other elements to your
-vector:
+You can use the \texttt{c()} function to add other elements to your vector:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -946,49 +730,32 @@ vector:
 ## [1] 30 50 60 65 82 90
 \end{verbatim}
 
-In the first line, we take the original vector \texttt{weight\_g}, add
-the value 90 to the end of it, and save the result back into
-\texttt{weight\_g}. Then we add the value 30 to the beginning, again
-saving the result back into \texttt{weight\_g}.
+In the first line, we take the original vector \texttt{weight\_g}, add the value 90 to the end of it, and save the result back into \texttt{weight\_g}. Then we add the value 30 to the beginning, again saving the result back into \texttt{weight\_g}.
 
-We can do this over and over again to grow a vector, or assemble a
-dataset. As we program, this may be useful to add results that we are
-collecting or calculating.
+We can do this over and over again to grow a vector, or assemble a dataset. As we program, this may be useful to add results that we are collecting or calculating.
 
-An \textbf{atomic vector} is the simplest R \textbf{data type} and is a
-linear vector of a single type. Above, we saw 2 of the 6 main atomic
-vector types that R uses: \texttt{"character"} and \texttt{"numeric"}
-(or \texttt{"double"}). These are the basic building blocks that all R
-objects are built from. The other 4 atomic vector types are:
+An \textbf{atomic vector} is the simplest R \textbf{data type} and is a linear vector of a single type. Above, we saw 2 of the 6 main atomic vector types that R uses: \texttt{"character"} and \texttt{"numeric"} (or \texttt{"double"}). These are the basic building blocks that all R objects are built from. The other 4 atomic vector types are:
 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{"logical"} for \texttt{TRUE} and \texttt{FALSE} (the boolean
-  data type)
+  \texttt{"logical"} for \texttt{TRUE} and \texttt{FALSE} (the boolean data type)
 \item
-  \texttt{"integer"} for integer numbers (e.g., \texttt{2L}, the
-  \texttt{L} indicates to R that it's an integer)
+  \texttt{"integer"} for integer numbers (e.g., \texttt{2L}, the \texttt{L} indicates to R that it's an integer)
 \item
-  \texttt{"complex"} to represent complex numbers with real and
-  imaginary parts (e.g., \texttt{1\ +\ 4i}) and that's all we're going
-  to say about them
+  \texttt{"complex"} to represent complex numbers with real and imaginary parts (e.g., \texttt{1\ +\ 4i}) and that's all we're going to say about them
 \item
   \texttt{"raw"} for bitstreams that we won't discuss further
 \end{itemize}
 
-You can check the type of your vector using the \texttt{typeof()}
-function and inputting your vector as the argument.
+You can check the type of your vector using the \texttt{typeof()} function and inputting your vector as the argument.
 
-Vectors are one of the many data structures that R uses. Other important
-ones are lists (\texttt{list}), matrices (\texttt{matrix}), data frames
-(\texttt{data.frame}), factors (\texttt{factor}) and arrays
-(\texttt{array}).
+Vectors are one of the many data structures that R uses. Other important ones are lists (\texttt{list}), matrices (\texttt{matrix}), data frames (\texttt{data.frame}), factors (\texttt{factor}) and arrays (\texttt{array}).
 
-\section{Subsetting vectors}\label{subsetting-vectors}
+\hypertarget{subsetting-vectors}{%
+\section{Subsetting vectors}\label{subsetting-vectors}}
 
-If we want to extract one or several values from a vector, we must
-provide one or several indices in square brackets. For instance:
+If we want to extract one or several values from a vector, we must provide one or several indices in square brackets. For instance:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1016,8 +783,7 @@ provide one or several indices in square brackets. For instance:
 ## [1] "dog" "rat"
 \end{verbatim}
 
-We can also repeat the indices to create an object with more elements
-than the original one:
+We can also repeat the indices to create an object with more elements than the original one:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1030,16 +796,12 @@ than the original one:
 ## [1] "mouse" "rat"   "dog"   "rat"   "mouse" "cat"
 \end{verbatim}
 
-R indices start at 1. Programming languages like Fortran, MATLAB, Julia,
-and R start counting at 1, because that's what human beings typically
-do. Languages in the C family (including C++, Java, Perl, and Python)
-count from 0 because that's simpler for computers to do.
+R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start counting at 1, because that's what human beings typically do. Languages in the C family (including C++, Java, Perl, and Python) count from 0 because that's simpler for computers to do.
 
-\subsection{Conditional subsetting}\label{conditional-subsetting}
+\hypertarget{conditional-subsetting}{%
+\subsection{Conditional subsetting}\label{conditional-subsetting}}
 
-Another common way of subsetting is by using a logical vector.
-\texttt{TRUE} will select the element with the same index, while
-\texttt{FALSE} will not:
+Another common way of subsetting is by using a logical vector. \texttt{TRUE} will select the element with the same index, while \texttt{FALSE} will not:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1052,9 +814,7 @@ Another common way of subsetting is by using a logical vector.
 ## [1] 21 39 54
 \end{verbatim}
 
-Typically, these logical vectors are not typed by hand, but are the
-output of other functions or logical tests. For instance, if you wanted
-to select only the values above 50:
+Typically, these logical vectors are not typed by hand, but are the output of other functions or logical tests. For instance, if you wanted to select only the values above 50:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1078,8 +838,7 @@ So we can use this to select only the values above 50
 ## [1] 54 55
 \end{verbatim}
 
-You can combine multiple tests using \& (both conditions are true, AND)
-or \textbar{} (at least one of the conditions is true, OR):
+You can combine multiple tests using \& (both conditions are true, AND) or \textbar{} (at least one of the conditions is true, OR):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1101,19 +860,9 @@ or \textbar{} (at least one of the conditions is true, OR):
 ## numeric(0)
 \end{verbatim}
 
-Here, \texttt{\textless{}} stands for ``less than'',
-\texttt{\textgreater{}} for ``greater than'', \texttt{\textgreater{}=}
-for ``greater than or equal to'', and \texttt{==} for ``equal to''. The
-double equal sign \texttt{==} is a test for numerical equality between
-the left and right hand sides, and should not be confused with the
-single \texttt{=} sign, which performs variable assignment (similar to
-\texttt{\textless{}-}).
+Here, \texttt{\textless{}} stands for ``less than'', \texttt{\textgreater{}} for ``greater than'', \texttt{\textgreater{}=} for ``greater than or equal to'', and \texttt{==} for ``equal to''. The double equal sign \texttt{==} is a test for numerical equality between the left and right hand sides, and should not be confused with the single \texttt{=} sign, which performs variable assignment (similar to \texttt{\textless{}-}).
 
-A common task is to search for certain strings in a vector. One could
-use the ``or'' operator \texttt{\textbar{}} to test for equality to
-multiple values, but this can quickly become tedious. The function
-\texttt{\%in\%} allows you to test if any of the elements of a search
-vector are found:
+A common task is to search for certain strings in a vector. One could use the ``or'' operator \texttt{\textbar{}} to test for equality to multiple values, but this can quickly become tedious. The function \texttt{\%in\%} allows you to test if any of the elements of a search vector are found:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1146,17 +895,12 @@ vector are found:
 ## [1] "rat" "dog" "cat"
 \end{verbatim}
 
-\section{Missing data}\label{missing-data}
+\hypertarget{missing-data}{%
+\section{Missing data}\label{missing-data}}
 
-As R was designed to analyze datasets, it includes the concept of
-missing data (which is uncommon in other programming languages). Missing
-data are represented in vectors as \texttt{NA}.
+As R was designed to analyze datasets, it includes the concept of missing data (which is uncommon in other programming languages). Missing data are represented in vectors as \texttt{NA}.
 
-When doing operations on numbers, most functions will return \texttt{NA}
-if the data you are working with include missing values. This feature
-makes it harder to overlook the cases where you are dealing with missing
-data. You can add the argument \texttt{na.rm\ =\ TRUE} to calculate the
-result while ignoring the missing values.
+When doing operations on numbers, most functions will return \texttt{NA} if the data you are working with include missing values. This feature makes it harder to overlook the cases where you are dealing with missing data. You can add the argument \texttt{na.rm\ =\ TRUE} to calculate the result while ignoring the missing values.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1204,13 +948,11 @@ result while ignoring the missing values.
 ## [1] 6
 \end{verbatim}
 
-If your data include missing values, you may want to become familiar
-with the functions \texttt{is.na()}, \texttt{na.omit()}, and
-\texttt{complete.cases()}. See below for examples.
+If your data include missing values, you may want to become familiar with the functions \texttt{is.na()}, \texttt{na.omit()}, and \texttt{complete.cases()}. See below for examples.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{## Extract those elements which are not missing values.}
+\CommentTok{## Extract those elements which are not missing values.}
 \NormalTok{heights[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(heights)]}
 \end{Highlighting}
 \end{Shaded}
@@ -1221,7 +963,7 @@ with the functions \texttt{is.na()}, \texttt{na.omit()}, and
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{## Returns the object with incomplete cases removed. The returned object is an atomic vector of type `"numeric"` (or `"double"`).}
+\CommentTok{## Returns the object with incomplete cases removed. The returned object is an atomic vector of type `"numeric"` (or `"double"`).}
 \KeywordTok{na.omit}\NormalTok{(heights)}
 \end{Highlighting}
 \end{Shaded}
@@ -1236,7 +978,7 @@ with the functions \texttt{is.na()}, \texttt{na.omit()}, and
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{## Extract those elements which are complete cases. The returned object is an atomic vector of type `"numeric"` (or `"double"`).}
+\CommentTok{## Extract those elements which are complete cases. The returned object is an atomic vector of type `"numeric"` (or `"double"`).}
 \NormalTok{heights[}\KeywordTok{complete.cases}\NormalTok{(heights)]}
 \end{Highlighting}
 \end{Shaded}
@@ -1245,16 +987,313 @@ with the functions \texttt{is.na()}, \texttt{na.omit()}, and
 ## [1] 2 4 4 6
 \end{verbatim}
 
-Now that we have learned how to write scripts, and the basics of R's
-data structures, we are ready to start working with an ADSL dataset!
+Now that we have learned how to write scripts, and the basics of R's data structures, we are ready to start working with an ADSL dataset!
 
-\chapter{Starting With Data}\label{starting-with-data}
+\hypertarget{starting-with-data}{%
+\chapter{Starting With Data}\label{starting-with-data}}
 
-\chapter{Manipulating Data}\label{manipulating-data}
+Because ADaM datasets are commonly stored as \texttt{.sas7bdat} files or \texttt{.xpt} files, we will need to install the package \texttt{haven}, which enables R to read and write SAS and XPT formats. To install a package we call the function \texttt{install.packages}, then to use that library we must call it.
 
-\chapter{Visualizing Data}\label{visualizing-data}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# install.packages("haven")}
+\KeywordTok{library}\NormalTok{(haven)}
+\end{Highlighting}
+\end{Shaded}
 
-\chapter{Creating a Report}\label{creating-a-report}
+Now we can inspect our two datafiles, the ADSL and ADAE taken from XYZ by saving them as objects. We'll use the \texttt{head} function to look at the first 6 rows of our data, and the \texttt{summary} function to get some basic statistics around each column in each dataframe.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL <-}\StringTok{ }\KeywordTok{read_xpt}\NormalTok{(}\StringTok{"data_raw/adsl.xpt"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(ADSL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 48
+##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
+##   <chr>   <chr>   <chr>  <chr>  <chr>   <chr> <chr>    <dbl> <chr>    <dbl>
+## 1 CDISCP~ 01-701~ 1015   701    701     Plac~ Place~       0 Place~       0
+## 2 CDISCP~ 01-701~ 1023   701    701     Plac~ Place~       0 Place~       0
+## 3 CDISCP~ 01-701~ 1028   701    701     Xano~ Xanom~      81 Xanom~      81
+## 4 CDISCP~ 01-701~ 1033   701    701     Xano~ Xanom~      54 Xanom~      54
+## 5 CDISCP~ 01-701~ 1034   701    701     Xano~ Xanom~      81 Xanom~      81
+## 6 CDISCP~ 01-701~ 1047   701    701     Plac~ Place~       0 Place~       0
+## # ... with 38 more variables: TRTSDT <date>, TRTEDT <date>, TRTDURD <dbl>,
+## #   AVGDD <dbl>, CUMDOSE <dbl>, AGE <dbl>, AGEGR1 <chr>, AGEGR1N <dbl>,
+## #   AGEU <chr>, RACE <chr>, RACEN <dbl>, SEX <chr>, ETHNIC <chr>, SAFFL <chr>,
+## #   ITTFL <chr>, EFFFL <chr>, COMP8FL <chr>, COMP16FL <chr>, COMP24FL <chr>,
+## #   DISCONFL <chr>, DSRAEFL <chr>, DTHFL <chr>, BMIBL <dbl>, BMIBLGR1 <chr>,
+## #   HEIGHTBL <dbl>, WEIGHTBL <dbl>, EDUCLVL <dbl>, DISONDT <date>,
+## #   DURDIS <dbl>, DURDSGR1 <chr>, VISIT1DT <date>, RFSTDTC <chr>,
+## #   RFENDTC <chr>, VISNUMEN <dbl>, RFENDT <date>, DCDECOD <chr>, DCSREAS <chr>,
+## #   MMSETOT <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(ADSL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    STUDYID            USUBJID             SUBJID             SITEID         
+##  Length:254         Length:254         Length:254         Length:254        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    SITEGR1              ARM               TRT01P             TRT01PN     
+##  Length:254         Length:254         Length:254         Min.   : 0.00  
+##  Class :character   Class :character   Class :character   1st Qu.: 0.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :54.00  
+##                                                           Mean   :44.65  
+##                                                           3rd Qu.:81.00  
+##                                                           Max.   :81.00  
+##                                                                          
+##     TRT01A             TRT01AN          TRTSDT               TRTEDT          
+##  Length:254         Min.   : 0.00   Min.   :2012-07-09   Min.   :2012-08-28  
+##  Class :character   1st Qu.: 0.00   1st Qu.:2013-01-26   1st Qu.:2013-05-12  
+##  Mode  :character   Median :54.00   Median :2013-06-13   Median :2013-09-27  
+##                     Mean   :44.65   Mean   :2013-06-17   Mean   :2013-10-10  
+##                     3rd Qu.:81.00   3rd Qu.:2013-11-07   3rd Qu.:2014-03-15  
+##                     Max.   :81.00   Max.   :2014-09-02   Max.   :2015-03-05  
+##                                                                              
+##     TRTDURD           AVGDD          CUMDOSE           AGE       
+##  Min.   :  1.00   Min.   : 0.00   Min.   :    0   Min.   :51.00  
+##  1st Qu.: 46.25   1st Qu.: 0.00   1st Qu.:    0   1st Qu.:70.00  
+##  Median :133.50   Median :54.00   Median : 2322   Median :77.00  
+##  Mean   :116.09   Mean   :41.54   Mean   : 4266   Mean   :75.09  
+##  3rd Qu.:183.00   3rd Qu.:70.10   3rd Qu.: 7810   3rd Qu.:81.00  
+##  Max.   :212.00   Max.   :78.60   Max.   :15417   Max.   :89.00  
+##                                                                  
+##     AGEGR1             AGEGR1N          AGEU               RACE          
+##  Length:254         Min.   :1.000   Length:254         Length:254        
+##  Class :character   1st Qu.:2.000   Class :character   Class :character  
+##  Mode  :character   Median :2.000   Mode  :character   Mode  :character  
+##                     Mean   :2.173                                        
+##                     3rd Qu.:3.000                                        
+##                     Max.   :3.000                                        
+##                                                                          
+##      RACEN          SEX               ETHNIC             SAFFL          
+##  Min.   :1.00   Length:254         Length:254         Length:254        
+##  1st Qu.:1.00   Class :character   Class :character   Class :character  
+##  Median :1.00   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :1.11                                                           
+##  3rd Qu.:1.00                                                           
+##  Max.   :6.00                                                           
+##                                                                         
+##     ITTFL              EFFFL             COMP8FL            COMP16FL        
+##  Length:254         Length:254         Length:254         Length:254        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    COMP24FL           DISCONFL           DSRAEFL             DTHFL          
+##  Length:254         Length:254         Length:254         Length:254        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##      BMIBL         BMIBLGR1            HEIGHTBL        WEIGHTBL     
+##  Min.   :13.70   Length:254         Min.   :135.9   Min.   : 34.00  
+##  1st Qu.:21.90   Class :character   1st Qu.:156.2   1st Qu.: 55.30  
+##  Median :24.20   Mode  :character   Median :162.8   Median : 66.70  
+##  Mean   :24.67                      Mean   :163.9   Mean   : 66.65  
+##  3rd Qu.:27.30                      3rd Qu.:171.5   3rd Qu.: 77.10  
+##  Max.   :40.10                      Max.   :195.6   Max.   :108.00  
+##  NA's   :1                                          NA's   :1       
+##     EDUCLVL         DISONDT               DURDIS         DURDSGR1        
+##  Min.   : 3.00   Min.   :1998-06-13   Min.   :  2.20   Length:254        
+##  1st Qu.:12.00   1st Qu.:2008-09-04   1st Qu.: 24.30   Class :character  
+##  Median :12.00   Median :2010-05-05   Median : 36.25   Mode  :character  
+##  Mean   :12.75   Mean   :2009-10-09   Mean   : 43.94                     
+##  3rd Qu.:16.00   3rd Qu.:2011-07-16   3rd Qu.: 57.35                     
+##  Max.   :24.00   Max.   :2013-09-16   Max.   :183.10                     
+##                                                                          
+##     VISIT1DT            RFSTDTC            RFENDTC             VISNUMEN     
+##  Min.   :2012-07-06   Length:254         Length:254         Min.   : 4.000  
+##  1st Qu.:2013-01-17   Class :character   Class :character   1st Qu.: 7.250  
+##  Median :2013-06-02   Mode  :character   Mode  :character   Median :11.000  
+##  Mean   :2013-06-06                                         Mean   : 9.583  
+##  3rd Qu.:2013-10-24                                         3rd Qu.:12.000  
+##  Max.   :2014-08-29                                         Max.   :12.000  
+##                                                                             
+##      RFENDT             DCDECOD            DCSREAS             MMSETOT     
+##  Min.   :2012-09-01   Length:254         Length:254         Min.   :10.00  
+##  1st Qu.:2013-05-16   Class :character   Class :character   1st Qu.:15.00  
+##  Median :2013-09-30   Mode  :character   Mode  :character   Median :19.00  
+##  Mean   :2013-10-15                                         Mean   :18.14  
+##  3rd Qu.:2014-03-20                                         3rd Qu.:22.00  
+##  Max.   :2015-03-05                                         Max.   :24.00  
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADVS <-}\StringTok{ }\KeywordTok{read_xpt}\NormalTok{(}\StringTok{"data_raw/adae.xpt"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(ADVS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 55
+##   STUDYID SITEID USUBJID TRTA  TRTAN   AGE AGEGR1 AGEGR1N RACE  RACEN SEX  
+##   <chr>   <chr>  <chr>   <chr> <dbl> <dbl> <chr>    <dbl> <chr> <dbl> <chr>
+## 1 CDISCP~ 701    01-701~ Plac~     0    63 <65          1 WHITE     1 F    
+## 2 CDISCP~ 701    01-701~ Plac~     0    63 <65          1 WHITE     1 F    
+## 3 CDISCP~ 701    01-701~ Plac~     0    63 <65          1 WHITE     1 F    
+## 4 CDISCP~ 701    01-701~ Plac~     0    64 <65          1 WHITE     1 M    
+## 5 CDISCP~ 701    01-701~ Plac~     0    64 <65          1 WHITE     1 M    
+## 6 CDISCP~ 701    01-701~ Plac~     0    64 <65          1 WHITE     1 M    
+## # ... with 44 more variables: SAFFL <chr>, TRTSDT <date>, TRTEDT <date>,
+## #   ASTDT <date>, ASTDTF <chr>, ASTDY <dbl>, AENDT <date>, AENDY <dbl>,
+## #   ADURN <dbl>, ADURU <chr>, AETERM <chr>, AELLT <chr>, AELLTCD <dbl>,
+## #   AEDECOD <chr>, AEPTCD <dbl>, AEHLT <chr>, AEHLTCD <dbl>, AEHLGT <chr>,
+## #   AEHLGTCD <dbl>, AEBODSYS <chr>, AESOC <chr>, AESOCCD <dbl>, AESEV <chr>,
+## #   AESER <chr>, AESCAN <chr>, AESCONG <chr>, AESDISAB <chr>, AESDTH <chr>,
+## #   AESHOSP <chr>, AESLIFE <chr>, AESOD <chr>, AEREL <chr>, AEACN <chr>,
+## #   AEOUT <chr>, AESEQ <dbl>, TRTEMFL <chr>, AOCCFL <chr>, AOCCSFL <chr>,
+## #   AOCCPFL <chr>, AOCC02FL <chr>, AOCC03FL <chr>, AOCC04FL <chr>,
+## #   CQ01NAM <chr>, AOCC01FL <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(ADVS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    STUDYID             SITEID            USUBJID              TRTA          
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##      TRTAN            AGE           AGEGR1             AGEGR1N     
+##  Min.   : 0.00   Min.   :51.00   Length:1191        Min.   :1.000  
+##  1st Qu.: 0.00   1st Qu.:69.50   Class :character   1st Qu.:2.000  
+##  Median :54.00   Median :77.00   Mode  :character   Median :2.000  
+##  Mean   :50.67   Mean   :74.82                      Mean   :2.131  
+##  3rd Qu.:81.00   3rd Qu.:81.00                      3rd Qu.:3.000  
+##  Max.   :81.00   Max.   :89.00                      Max.   :3.000  
+##                                                                    
+##      RACE               RACEN           SEX               SAFFL          
+##  Length:1191        Min.   :1.000   Length:1191        Length:1191       
+##  Class :character   1st Qu.:1.000   Class :character   Class :character  
+##  Mode  :character   Median :1.000   Mode  :character   Mode  :character  
+##                     Mean   :1.139                                        
+##                     3rd Qu.:1.000                                        
+##                     Max.   :6.000                                        
+##                                                                          
+##      TRTSDT               TRTEDT               ASTDT           
+##  Min.   :2012-07-09   Min.   :2012-08-28   Min.   :1994-04-01  
+##  1st Qu.:2013-01-25   1st Qu.:2013-05-23   1st Qu.:2013-03-04  
+##  Median :2013-05-20   Median :2013-09-26   Median :2013-06-30  
+##  Mean   :2013-06-05   Mean   :2013-10-04   Mean   :2013-07-09  
+##  3rd Qu.:2013-10-24   3rd Qu.:2014-02-20   3rd Qu.:2013-11-27  
+##  Max.   :2014-09-02   Max.   :2015-03-05   Max.   :2014-11-03  
+##                                            NA's   :11          
+##     ASTDTF              ASTDY              AENDT                AENDY       
+##  Length:1191        Min.   :-6970.00   Min.   :2012-08-03   Min.   : -2.00  
+##  Class :character   1st Qu.:   15.00   1st Qu.:2013-03-20   1st Qu.: 27.00  
+##  Mode  :character   Median :   31.50   Median :2013-07-08   Median : 53.00  
+##                     Mean   :   34.22   Mean   :2013-08-03   Mean   : 67.14  
+##                     3rd Qu.:   63.00   3rd Qu.:2013-12-14   3rd Qu.:101.25  
+##                     Max.   :  194.00   Max.   :2014-10-31   Max.   :211.00  
+##                     NA's   :11         NA's   :473          NA's   :473     
+##      ADURN           ADURU              AETERM             AELLT          
+##  Min.   :  1.00   Length:1191        Length:1191        Length:1191       
+##  1st Qu.:  2.00   Class :character   Class :character   Class :character  
+##  Median : 11.00   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   : 23.84                                                           
+##  3rd Qu.: 27.00                                                           
+##  Max.   :444.00                                                           
+##  NA's   :477                                                              
+##     AELLTCD       AEDECOD              AEPTCD        AEHLT          
+##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
+##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
+##  Median : NA    Mode  :character   Median : NA    Mode  :character  
+##  Mean   :NaN                       Mean   :NaN                      
+##  3rd Qu.: NA                       3rd Qu.: NA                      
+##  Max.   : NA                       Max.   : NA                      
+##  NA's   :1191                      NA's   :1191                     
+##     AEHLTCD        AEHLGT             AEHLGTCD      AEBODSYS        
+##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
+##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
+##  Median : NA    Mode  :character   Median : NA    Mode  :character  
+##  Mean   :NaN                       Mean   :NaN                      
+##  3rd Qu.: NA                       3rd Qu.: NA                      
+##  Max.   : NA                       Max.   : NA                      
+##  NA's   :1191                      NA's   :1191                     
+##     AESOC              AESOCCD        AESEV              AESER          
+##  Length:1191        Min.   : NA    Length:1191        Length:1191       
+##  Class :character   1st Qu.: NA    Class :character   Class :character  
+##  Mode  :character   Median : NA    Mode  :character   Mode  :character  
+##                     Mean   :NaN                                         
+##                     3rd Qu.: NA                                         
+##                     Max.   : NA                                         
+##                     NA's   :1191                                        
+##     AESCAN            AESCONG            AESDISAB            AESDTH         
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    AESHOSP            AESLIFE             AESOD              AEREL          
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##     AEACN              AEOUT               AESEQ         TRTEMFL         
+##  Length:1191        Length:1191        Min.   : 1.00   Length:1191       
+##  Class :character   Class :character   1st Qu.: 2.00   Class :character  
+##  Mode  :character   Mode  :character   Median : 4.00   Mode  :character  
+##                                        Mean   : 4.53                     
+##                                        3rd Qu.: 6.00                     
+##                                        Max.   :23.00                     
+##                                                                          
+##     AOCCFL            AOCCSFL            AOCCPFL            AOCC02FL        
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    AOCC03FL           AOCC04FL           CQ01NAM            AOCC01FL        
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+## 
+\end{verbatim}
+
+\hypertarget{manipulating-data}{%
+\chapter{Manipulating Data}\label{manipulating-data}}
+
+\hypertarget{visualizing-data}{%
+\chapter{Visualizing Data}\label{visualizing-data}}
+
+\hypertarget{creating-a-report}{%
+\chapter{Creating a Report}\label{creating-a-report}}
 
 \bibliography{book.bib,packages.bib}
 

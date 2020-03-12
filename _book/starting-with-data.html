@@ -24,7 +24,7 @@
 <meta name="author" content="Maya Gans" />
 
 
-<meta name="date" content="2020-02-03" />
+<meta name="date" content="2020-03-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,41 +53,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -122,6 +147,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.2" data-path="intro.html"><a href="intro.html#start-rstudio."><i class="fa fa-check"></i><b>3.2</b> Start RStudio.</a></li>
 <li class="chapter" data-level="3.3" data-path="intro.html"><a href="intro.html#optional-preferences"><i class="fa fa-check"></i><b>3.3</b> Optional Preferences</a></li>
 <li class="chapter" data-level="3.4" data-path="intro.html"><a href="intro.html#organizing-your-working-directory"><i class="fa fa-check"></i><b>3.4</b> Organizing your working directory</a></li>
+<li class="chapter" data-level="3.5" data-path="intro.html"><a href="intro.html#exercise"><i class="fa fa-check"></i><b>3.5</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="interacting-with-r.html"><a href="interacting-with-r.html"><i class="fa fa-check"></i><b>4</b> Interacting with R</a><ul>
 <li class="chapter" data-level="4.1" data-path="interacting-with-r.html"><a href="interacting-with-r.html#seeking-help"><i class="fa fa-check"></i><b>4.1</b> Seeking help</a></li>
@@ -166,6 +192,261 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="starting-with-data" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Starting With Data</h1>
+<p>Because ADaM datasets are commonly stored as <code>.sas7bdat</code> files or <code>.xpt</code> files, we will need to install the package <code>haven</code>, which enables R to read and write SAS and XPT formats. To install a package we call the function <code>install.packages</code>, then to use that library we must call it.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># install.packages(&quot;haven&quot;)</span></a>
+<a class="sourceLine" id="cb86-2" data-line-number="2"><span class="kw">library</span>(haven)</a></code></pre></div>
+<p>Now we can inspect our two datafiles, the ADSL and ADAE taken from XYZ by saving them as objects. We’ll use the <code>head</code> function to look at the first 6 rows of our data, and the <code>summary</code> function to get some basic statistics around each column in each dataframe.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">ADSL &lt;-<span class="st"> </span><span class="kw">read_xpt</span>(<span class="st">&quot;data_raw/adsl.xpt&quot;</span>)</a>
+<a class="sourceLine" id="cb87-2" data-line-number="2"><span class="kw">head</span>(ADSL)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 48
+##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 CDISCP… 01-701… 1015   701    701     Plac… Place…       0 Place…       0
+## 2 CDISCP… 01-701… 1023   701    701     Plac… Place…       0 Place…       0
+## 3 CDISCP… 01-701… 1028   701    701     Xano… Xanom…      81 Xanom…      81
+## 4 CDISCP… 01-701… 1033   701    701     Xano… Xanom…      54 Xanom…      54
+## 5 CDISCP… 01-701… 1034   701    701     Xano… Xanom…      81 Xanom…      81
+## 6 CDISCP… 01-701… 1047   701    701     Plac… Place…       0 Place…       0
+## # … with 38 more variables: TRTSDT &lt;date&gt;, TRTEDT &lt;date&gt;, TRTDURD &lt;dbl&gt;,
+## #   AVGDD &lt;dbl&gt;, CUMDOSE &lt;dbl&gt;, AGE &lt;dbl&gt;, AGEGR1 &lt;chr&gt;, AGEGR1N &lt;dbl&gt;,
+## #   AGEU &lt;chr&gt;, RACE &lt;chr&gt;, RACEN &lt;dbl&gt;, SEX &lt;chr&gt;, ETHNIC &lt;chr&gt;, SAFFL &lt;chr&gt;,
+## #   ITTFL &lt;chr&gt;, EFFFL &lt;chr&gt;, COMP8FL &lt;chr&gt;, COMP16FL &lt;chr&gt;, COMP24FL &lt;chr&gt;,
+## #   DISCONFL &lt;chr&gt;, DSRAEFL &lt;chr&gt;, DTHFL &lt;chr&gt;, BMIBL &lt;dbl&gt;, BMIBLGR1 &lt;chr&gt;,
+## #   HEIGHTBL &lt;dbl&gt;, WEIGHTBL &lt;dbl&gt;, EDUCLVL &lt;dbl&gt;, DISONDT &lt;date&gt;,
+## #   DURDIS &lt;dbl&gt;, DURDSGR1 &lt;chr&gt;, VISIT1DT &lt;date&gt;, RFSTDTC &lt;chr&gt;,
+## #   RFENDTC &lt;chr&gt;, VISNUMEN &lt;dbl&gt;, RFENDT &lt;date&gt;, DCDECOD &lt;chr&gt;, DCSREAS &lt;chr&gt;,
+## #   MMSETOT &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">summary</span>(ADSL)</a></code></pre></div>
+<pre><code>##    STUDYID            USUBJID             SUBJID             SITEID         
+##  Length:254         Length:254         Length:254         Length:254        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    SITEGR1              ARM               TRT01P             TRT01PN     
+##  Length:254         Length:254         Length:254         Min.   : 0.00  
+##  Class :character   Class :character   Class :character   1st Qu.: 0.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :54.00  
+##                                                           Mean   :44.65  
+##                                                           3rd Qu.:81.00  
+##                                                           Max.   :81.00  
+##                                                                          
+##     TRT01A             TRT01AN          TRTSDT               TRTEDT          
+##  Length:254         Min.   : 0.00   Min.   :2012-07-09   Min.   :2012-08-28  
+##  Class :character   1st Qu.: 0.00   1st Qu.:2013-01-26   1st Qu.:2013-05-12  
+##  Mode  :character   Median :54.00   Median :2013-06-13   Median :2013-09-27  
+##                     Mean   :44.65   Mean   :2013-06-17   Mean   :2013-10-10  
+##                     3rd Qu.:81.00   3rd Qu.:2013-11-07   3rd Qu.:2014-03-15  
+##                     Max.   :81.00   Max.   :2014-09-02   Max.   :2015-03-05  
+##                                                                              
+##     TRTDURD           AVGDD          CUMDOSE           AGE       
+##  Min.   :  1.00   Min.   : 0.00   Min.   :    0   Min.   :51.00  
+##  1st Qu.: 46.25   1st Qu.: 0.00   1st Qu.:    0   1st Qu.:70.00  
+##  Median :133.50   Median :54.00   Median : 2322   Median :77.00  
+##  Mean   :116.09   Mean   :41.54   Mean   : 4266   Mean   :75.09  
+##  3rd Qu.:183.00   3rd Qu.:70.10   3rd Qu.: 7810   3rd Qu.:81.00  
+##  Max.   :212.00   Max.   :78.60   Max.   :15417   Max.   :89.00  
+##                                                                  
+##     AGEGR1             AGEGR1N          AGEU               RACE          
+##  Length:254         Min.   :1.000   Length:254         Length:254        
+##  Class :character   1st Qu.:2.000   Class :character   Class :character  
+##  Mode  :character   Median :2.000   Mode  :character   Mode  :character  
+##                     Mean   :2.173                                        
+##                     3rd Qu.:3.000                                        
+##                     Max.   :3.000                                        
+##                                                                          
+##      RACEN          SEX               ETHNIC             SAFFL          
+##  Min.   :1.00   Length:254         Length:254         Length:254        
+##  1st Qu.:1.00   Class :character   Class :character   Class :character  
+##  Median :1.00   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :1.11                                                           
+##  3rd Qu.:1.00                                                           
+##  Max.   :6.00                                                           
+##                                                                         
+##     ITTFL              EFFFL             COMP8FL            COMP16FL        
+##  Length:254         Length:254         Length:254         Length:254        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    COMP24FL           DISCONFL           DSRAEFL             DTHFL          
+##  Length:254         Length:254         Length:254         Length:254        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##      BMIBL         BMIBLGR1            HEIGHTBL        WEIGHTBL     
+##  Min.   :13.70   Length:254         Min.   :135.9   Min.   : 34.00  
+##  1st Qu.:21.90   Class :character   1st Qu.:156.2   1st Qu.: 55.30  
+##  Median :24.20   Mode  :character   Median :162.8   Median : 66.70  
+##  Mean   :24.67                      Mean   :163.9   Mean   : 66.65  
+##  3rd Qu.:27.30                      3rd Qu.:171.5   3rd Qu.: 77.10  
+##  Max.   :40.10                      Max.   :195.6   Max.   :108.00  
+##  NA&#39;s   :1                                          NA&#39;s   :1       
+##     EDUCLVL         DISONDT               DURDIS         DURDSGR1        
+##  Min.   : 3.00   Min.   :1998-06-13   Min.   :  2.20   Length:254        
+##  1st Qu.:12.00   1st Qu.:2008-09-04   1st Qu.: 24.30   Class :character  
+##  Median :12.00   Median :2010-05-05   Median : 36.25   Mode  :character  
+##  Mean   :12.75   Mean   :2009-10-09   Mean   : 43.94                     
+##  3rd Qu.:16.00   3rd Qu.:2011-07-16   3rd Qu.: 57.35                     
+##  Max.   :24.00   Max.   :2013-09-16   Max.   :183.10                     
+##                                                                          
+##     VISIT1DT            RFSTDTC            RFENDTC             VISNUMEN     
+##  Min.   :2012-07-06   Length:254         Length:254         Min.   : 4.000  
+##  1st Qu.:2013-01-17   Class :character   Class :character   1st Qu.: 7.250  
+##  Median :2013-06-02   Mode  :character   Mode  :character   Median :11.000  
+##  Mean   :2013-06-06                                         Mean   : 9.583  
+##  3rd Qu.:2013-10-24                                         3rd Qu.:12.000  
+##  Max.   :2014-08-29                                         Max.   :12.000  
+##                                                                             
+##      RFENDT             DCDECOD            DCSREAS             MMSETOT     
+##  Min.   :2012-09-01   Length:254         Length:254         Min.   :10.00  
+##  1st Qu.:2013-05-16   Class :character   Class :character   1st Qu.:15.00  
+##  Median :2013-09-30   Mode  :character   Mode  :character   Median :19.00  
+##  Mean   :2013-10-15                                         Mean   :18.14  
+##  3rd Qu.:2014-03-20                                         3rd Qu.:22.00  
+##  Max.   :2015-03-05                                         Max.   :24.00  
+## </code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1">ADVS &lt;-<span class="st"> </span><span class="kw">read_xpt</span>(<span class="st">&quot;data_raw/adae.xpt&quot;</span>)</a>
+<a class="sourceLine" id="cb91-2" data-line-number="2"><span class="kw">head</span>(ADVS)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 55
+##   STUDYID SITEID USUBJID TRTA  TRTAN   AGE AGEGR1 AGEGR1N RACE  RACEN SEX  
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
+## 1 CDISCP… 701    01-701… Plac…     0    63 &lt;65          1 WHITE     1 F    
+## 2 CDISCP… 701    01-701… Plac…     0    63 &lt;65          1 WHITE     1 F    
+## 3 CDISCP… 701    01-701… Plac…     0    63 &lt;65          1 WHITE     1 F    
+## 4 CDISCP… 701    01-701… Plac…     0    64 &lt;65          1 WHITE     1 M    
+## 5 CDISCP… 701    01-701… Plac…     0    64 &lt;65          1 WHITE     1 M    
+## 6 CDISCP… 701    01-701… Plac…     0    64 &lt;65          1 WHITE     1 M    
+## # … with 44 more variables: SAFFL &lt;chr&gt;, TRTSDT &lt;date&gt;, TRTEDT &lt;date&gt;,
+## #   ASTDT &lt;date&gt;, ASTDTF &lt;chr&gt;, ASTDY &lt;dbl&gt;, AENDT &lt;date&gt;, AENDY &lt;dbl&gt;,
+## #   ADURN &lt;dbl&gt;, ADURU &lt;chr&gt;, AETERM &lt;chr&gt;, AELLT &lt;chr&gt;, AELLTCD &lt;dbl&gt;,
+## #   AEDECOD &lt;chr&gt;, AEPTCD &lt;dbl&gt;, AEHLT &lt;chr&gt;, AEHLTCD &lt;dbl&gt;, AEHLGT &lt;chr&gt;,
+## #   AEHLGTCD &lt;dbl&gt;, AEBODSYS &lt;chr&gt;, AESOC &lt;chr&gt;, AESOCCD &lt;dbl&gt;, AESEV &lt;chr&gt;,
+## #   AESER &lt;chr&gt;, AESCAN &lt;chr&gt;, AESCONG &lt;chr&gt;, AESDISAB &lt;chr&gt;, AESDTH &lt;chr&gt;,
+## #   AESHOSP &lt;chr&gt;, AESLIFE &lt;chr&gt;, AESOD &lt;chr&gt;, AEREL &lt;chr&gt;, AEACN &lt;chr&gt;,
+## #   AEOUT &lt;chr&gt;, AESEQ &lt;dbl&gt;, TRTEMFL &lt;chr&gt;, AOCCFL &lt;chr&gt;, AOCCSFL &lt;chr&gt;,
+## #   AOCCPFL &lt;chr&gt;, AOCC02FL &lt;chr&gt;, AOCC03FL &lt;chr&gt;, AOCC04FL &lt;chr&gt;,
+## #   CQ01NAM &lt;chr&gt;, AOCC01FL &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="kw">summary</span>(ADVS)</a></code></pre></div>
+<pre><code>##    STUDYID             SITEID            USUBJID              TRTA          
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##      TRTAN            AGE           AGEGR1             AGEGR1N     
+##  Min.   : 0.00   Min.   :51.00   Length:1191        Min.   :1.000  
+##  1st Qu.: 0.00   1st Qu.:69.50   Class :character   1st Qu.:2.000  
+##  Median :54.00   Median :77.00   Mode  :character   Median :2.000  
+##  Mean   :50.67   Mean   :74.82                      Mean   :2.131  
+##  3rd Qu.:81.00   3rd Qu.:81.00                      3rd Qu.:3.000  
+##  Max.   :81.00   Max.   :89.00                      Max.   :3.000  
+##                                                                    
+##      RACE               RACEN           SEX               SAFFL          
+##  Length:1191        Min.   :1.000   Length:1191        Length:1191       
+##  Class :character   1st Qu.:1.000   Class :character   Class :character  
+##  Mode  :character   Median :1.000   Mode  :character   Mode  :character  
+##                     Mean   :1.139                                        
+##                     3rd Qu.:1.000                                        
+##                     Max.   :6.000                                        
+##                                                                          
+##      TRTSDT               TRTEDT               ASTDT           
+##  Min.   :2012-07-09   Min.   :2012-08-28   Min.   :1994-04-01  
+##  1st Qu.:2013-01-25   1st Qu.:2013-05-23   1st Qu.:2013-03-04  
+##  Median :2013-05-20   Median :2013-09-26   Median :2013-06-30  
+##  Mean   :2013-06-05   Mean   :2013-10-04   Mean   :2013-07-09  
+##  3rd Qu.:2013-10-24   3rd Qu.:2014-02-20   3rd Qu.:2013-11-27  
+##  Max.   :2014-09-02   Max.   :2015-03-05   Max.   :2014-11-03  
+##                                            NA&#39;s   :11          
+##     ASTDTF              ASTDY              AENDT                AENDY       
+##  Length:1191        Min.   :-6970.00   Min.   :2012-08-03   Min.   : -2.00  
+##  Class :character   1st Qu.:   15.00   1st Qu.:2013-03-20   1st Qu.: 27.00  
+##  Mode  :character   Median :   31.50   Median :2013-07-08   Median : 53.00  
+##                     Mean   :   34.22   Mean   :2013-08-03   Mean   : 67.14  
+##                     3rd Qu.:   63.00   3rd Qu.:2013-12-14   3rd Qu.:101.25  
+##                     Max.   :  194.00   Max.   :2014-10-31   Max.   :211.00  
+##                     NA&#39;s   :11         NA&#39;s   :473          NA&#39;s   :473     
+##      ADURN           ADURU              AETERM             AELLT          
+##  Min.   :  1.00   Length:1191        Length:1191        Length:1191       
+##  1st Qu.:  2.00   Class :character   Class :character   Class :character  
+##  Median : 11.00   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   : 23.84                                                           
+##  3rd Qu.: 27.00                                                           
+##  Max.   :444.00                                                           
+##  NA&#39;s   :477                                                              
+##     AELLTCD       AEDECOD              AEPTCD        AEHLT          
+##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
+##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
+##  Median : NA    Mode  :character   Median : NA    Mode  :character  
+##  Mean   :NaN                       Mean   :NaN                      
+##  3rd Qu.: NA                       3rd Qu.: NA                      
+##  Max.   : NA                       Max.   : NA                      
+##  NA&#39;s   :1191                      NA&#39;s   :1191                     
+##     AEHLTCD        AEHLGT             AEHLGTCD      AEBODSYS        
+##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
+##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
+##  Median : NA    Mode  :character   Median : NA    Mode  :character  
+##  Mean   :NaN                       Mean   :NaN                      
+##  3rd Qu.: NA                       3rd Qu.: NA                      
+##  Max.   : NA                       Max.   : NA                      
+##  NA&#39;s   :1191                      NA&#39;s   :1191                     
+##     AESOC              AESOCCD        AESEV              AESER          
+##  Length:1191        Min.   : NA    Length:1191        Length:1191       
+##  Class :character   1st Qu.: NA    Class :character   Class :character  
+##  Mode  :character   Median : NA    Mode  :character   Mode  :character  
+##                     Mean   :NaN                                         
+##                     3rd Qu.: NA                                         
+##                     Max.   : NA                                         
+##                     NA&#39;s   :1191                                        
+##     AESCAN            AESCONG            AESDISAB            AESDTH         
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    AESHOSP            AESLIFE             AESOD              AEREL          
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##     AEACN              AEOUT               AESEQ         TRTEMFL         
+##  Length:1191        Length:1191        Min.   : 1.00   Length:1191       
+##  Class :character   Class :character   1st Qu.: 2.00   Class :character  
+##  Mode  :character   Mode  :character   Median : 4.00   Mode  :character  
+##                                        Mean   : 4.53                     
+##                                        3rd Qu.: 6.00                     
+##                                        Max.   :23.00                     
+##                                                                          
+##     AOCCFL            AOCCSFL            AOCCPFL            AOCC02FL        
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##    AOCC03FL           AOCC04FL           CQ01NAM            AOCC01FL        
+##  Length:1191        Length:1191        Length:1191        Length:1191       
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+## </code></pre>
 
 </div>
             </section>

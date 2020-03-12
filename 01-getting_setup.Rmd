@@ -67,3 +67,7 @@ Your working directory should now look like this:
 ```{r, fig.align='center', echo=FALSE}
 knitr::include_graphics("/Users/mayagans/Desktop/Cytel_Bookdown/bookdown-demo-master/_book/bookdown-demo_files/figure-html/rstudio-filestructure.png")
 ```
+
+## Exercise
+
+Download the ADSL and ADAE from XYZ and add it to your `raw_data` folder
