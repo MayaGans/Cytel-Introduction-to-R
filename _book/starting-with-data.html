@@ -165,7 +165,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#missing-data"><i class="fa fa-check"></i><b>5.5</b> Missing data</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="starting-with-data.html"><a href="starting-with-data.html"><i class="fa fa-check"></i><b>6</b> Starting With Data</a></li>
+<li class="chapter" data-level="6" data-path="starting-with-data.html"><a href="starting-with-data.html"><i class="fa fa-check"></i><b>6</b> Starting With Data</a><ul>
+<li class="chapter" data-level="6.1" data-path="starting-with-data.html"><a href="starting-with-data.html#what-is-a-data-frame"><i class="fa fa-check"></i><b>6.1</b> What is a data frame?</a></li>
+<li class="chapter" data-level="6.2" data-path="starting-with-data.html"><a href="starting-with-data.html#exersize"><i class="fa fa-check"></i><b>6.2</b> Exersize</a></li>
+<li class="chapter" data-level="6.3" data-path="starting-with-data.html"><a href="starting-with-data.html#indexing-and-subsetting-data-frames"><i class="fa fa-check"></i><b>6.3</b> Indexing and Subsetting Data Frames</a></li>
+<li class="chapter" data-level="6.4" data-path="starting-with-data.html"><a href="starting-with-data.html#exercise-1"><i class="fa fa-check"></i><b>6.4</b> Exercise</a></li>
+<li class="chapter" data-level="6.5" data-path="starting-with-data.html"><a href="starting-with-data.html#factors"><i class="fa fa-check"></i><b>6.5</b> Factors</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="manipulating-data.html"><a href="manipulating-data.html"><i class="fa fa-check"></i><b>7</b> Manipulating Data</a></li>
 <li class="chapter" data-level="8" data-path="visualizing-data.html"><a href="visualizing-data.html"><i class="fa fa-check"></i><b>8</b> Visualizing Data</a></li>
 <li class="chapter" data-level="9" data-path="creating-a-report.html"><a href="creating-a-report.html"><i class="fa fa-check"></i><b>9</b> Creating a Report</a></li>
@@ -192,12 +198,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="starting-with-data" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Starting With Data</h1>
-<p>Because ADaM datasets are commonly stored as <code>.sas7bdat</code> files or <code>.xpt</code> files, we will need to install the package <code>haven</code>, which enables R to read and write SAS and XPT formats. To install a package we call the function <code>install.packages</code>, then to use that library we must call it.</p>
+<p>R has built in functions to bring in data like <code>read.csv()</code>, but because ADaM datasets are commonly stored as <code>.sas7bdat</code> files or <code>.xpt</code> files, we will need to install the package <code>haven</code>. This package enables R to read and write SAS and XPT formats. To install a package we call the function <code>install.packages</code> (we only need to do this once), then to use that package we must call it using <code>library</code>.</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># install.packages(&quot;haven&quot;)</span></a>
 <a class="sourceLine" id="cb86-2" data-line-number="2"><span class="kw">library</span>(haven)</a></code></pre></div>
-<p>Now we can inspect our two datafiles, the ADSL and ADAE taken from XYZ by saving them as objects. We’ll use the <code>head</code> function to look at the first 6 rows of our data, and the <code>summary</code> function to get some basic statistics around each column in each dataframe.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">ADSL &lt;-<span class="st"> </span><span class="kw">read_xpt</span>(<span class="st">&quot;data_raw/adsl.xpt&quot;</span>)</a>
-<a class="sourceLine" id="cb87-2" data-line-number="2"><span class="kw">head</span>(ADSL)</a></code></pre></div>
+<p>Let’s start with out ADSL file which we placed in <code>raw_data</code>, and save it as an object.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">ADSL &lt;-<span class="st"> </span><span class="kw">read_xpt</span>(<span class="st">&quot;data_raw/adsl.xpt&quot;</span>)</a></code></pre></div>
+<p>This statement doesn’t produce any output because assignments don’t display anything. If we want to check that our data has loaded we can see the contents by typing the name of the data… but that’s a lot of output!</p>
+<p>Instead we’ll check the top (the first 6 lines) of our datasets using the function <code>head()</code></p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="kw">head</span>(ADSL)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 48
 ##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
 ##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
@@ -216,238 +224,486 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## #   DURDIS &lt;dbl&gt;, DURDSGR1 &lt;chr&gt;, VISIT1DT &lt;date&gt;, RFSTDTC &lt;chr&gt;,
 ## #   RFENDTC &lt;chr&gt;, VISNUMEN &lt;dbl&gt;, RFENDT &lt;date&gt;, DCDECOD &lt;chr&gt;, DCSREAS &lt;chr&gt;,
 ## #   MMSETOT &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">summary</span>(ADSL)</a></code></pre></div>
-<pre><code>##    STUDYID            USUBJID             SUBJID             SITEID         
-##  Length:254         Length:254         Length:254         Length:254        
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    SITEGR1              ARM               TRT01P             TRT01PN     
-##  Length:254         Length:254         Length:254         Min.   : 0.00  
-##  Class :character   Class :character   Class :character   1st Qu.: 0.00  
-##  Mode  :character   Mode  :character   Mode  :character   Median :54.00  
-##                                                           Mean   :44.65  
-##                                                           3rd Qu.:81.00  
-##                                                           Max.   :81.00  
-##                                                                          
-##     TRT01A             TRT01AN          TRTSDT               TRTEDT          
-##  Length:254         Min.   : 0.00   Min.   :2012-07-09   Min.   :2012-08-28  
-##  Class :character   1st Qu.: 0.00   1st Qu.:2013-01-26   1st Qu.:2013-05-12  
-##  Mode  :character   Median :54.00   Median :2013-06-13   Median :2013-09-27  
-##                     Mean   :44.65   Mean   :2013-06-17   Mean   :2013-10-10  
-##                     3rd Qu.:81.00   3rd Qu.:2013-11-07   3rd Qu.:2014-03-15  
-##                     Max.   :81.00   Max.   :2014-09-02   Max.   :2015-03-05  
-##                                                                              
-##     TRTDURD           AVGDD          CUMDOSE           AGE       
-##  Min.   :  1.00   Min.   : 0.00   Min.   :    0   Min.   :51.00  
-##  1st Qu.: 46.25   1st Qu.: 0.00   1st Qu.:    0   1st Qu.:70.00  
-##  Median :133.50   Median :54.00   Median : 2322   Median :77.00  
-##  Mean   :116.09   Mean   :41.54   Mean   : 4266   Mean   :75.09  
-##  3rd Qu.:183.00   3rd Qu.:70.10   3rd Qu.: 7810   3rd Qu.:81.00  
-##  Max.   :212.00   Max.   :78.60   Max.   :15417   Max.   :89.00  
-##                                                                  
-##     AGEGR1             AGEGR1N          AGEU               RACE          
-##  Length:254         Min.   :1.000   Length:254         Length:254        
-##  Class :character   1st Qu.:2.000   Class :character   Class :character  
-##  Mode  :character   Median :2.000   Mode  :character   Mode  :character  
-##                     Mean   :2.173                                        
-##                     3rd Qu.:3.000                                        
-##                     Max.   :3.000                                        
-##                                                                          
-##      RACEN          SEX               ETHNIC             SAFFL          
-##  Min.   :1.00   Length:254         Length:254         Length:254        
-##  1st Qu.:1.00   Class :character   Class :character   Class :character  
-##  Median :1.00   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :1.11                                                           
-##  3rd Qu.:1.00                                                           
-##  Max.   :6.00                                                           
-##                                                                         
-##     ITTFL              EFFFL             COMP8FL            COMP16FL        
-##  Length:254         Length:254         Length:254         Length:254        
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    COMP24FL           DISCONFL           DSRAEFL             DTHFL          
-##  Length:254         Length:254         Length:254         Length:254        
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##      BMIBL         BMIBLGR1            HEIGHTBL        WEIGHTBL     
-##  Min.   :13.70   Length:254         Min.   :135.9   Min.   : 34.00  
-##  1st Qu.:21.90   Class :character   1st Qu.:156.2   1st Qu.: 55.30  
-##  Median :24.20   Mode  :character   Median :162.8   Median : 66.70  
-##  Mean   :24.67                      Mean   :163.9   Mean   : 66.65  
-##  3rd Qu.:27.30                      3rd Qu.:171.5   3rd Qu.: 77.10  
-##  Max.   :40.10                      Max.   :195.6   Max.   :108.00  
-##  NA&#39;s   :1                                          NA&#39;s   :1       
-##     EDUCLVL         DISONDT               DURDIS         DURDSGR1        
-##  Min.   : 3.00   Min.   :1998-06-13   Min.   :  2.20   Length:254        
-##  1st Qu.:12.00   1st Qu.:2008-09-04   1st Qu.: 24.30   Class :character  
-##  Median :12.00   Median :2010-05-05   Median : 36.25   Mode  :character  
-##  Mean   :12.75   Mean   :2009-10-09   Mean   : 43.94                     
-##  3rd Qu.:16.00   3rd Qu.:2011-07-16   3rd Qu.: 57.35                     
-##  Max.   :24.00   Max.   :2013-09-16   Max.   :183.10                     
-##                                                                          
-##     VISIT1DT            RFSTDTC            RFENDTC             VISNUMEN     
-##  Min.   :2012-07-06   Length:254         Length:254         Min.   : 4.000  
-##  1st Qu.:2013-01-17   Class :character   Class :character   1st Qu.: 7.250  
-##  Median :2013-06-02   Mode  :character   Mode  :character   Median :11.000  
-##  Mean   :2013-06-06                                         Mean   : 9.583  
-##  3rd Qu.:2013-10-24                                         3rd Qu.:12.000  
-##  Max.   :2014-08-29                                         Max.   :12.000  
-##                                                                             
-##      RFENDT             DCDECOD            DCSREAS             MMSETOT     
-##  Min.   :2012-09-01   Length:254         Length:254         Min.   :10.00  
-##  1st Qu.:2013-05-16   Class :character   Class :character   1st Qu.:15.00  
-##  Median :2013-09-30   Mode  :character   Mode  :character   Median :19.00  
-##  Mean   :2013-10-15                                         Mean   :18.14  
-##  3rd Qu.:2014-03-20                                         3rd Qu.:22.00  
-##  Max.   :2015-03-05                                         Max.   :24.00  
-## </code></pre>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1">ADVS &lt;-<span class="st"> </span><span class="kw">read_xpt</span>(<span class="st">&quot;data_raw/adae.xpt&quot;</span>)</a>
-<a class="sourceLine" id="cb91-2" data-line-number="2"><span class="kw">head</span>(ADVS)</a></code></pre></div>
-<pre><code>## # A tibble: 6 x 55
-##   STUDYID SITEID USUBJID TRTA  TRTAN   AGE AGEGR1 AGEGR1N RACE  RACEN SEX  
-##   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
-## 1 CDISCP… 701    01-701… Plac…     0    63 &lt;65          1 WHITE     1 F    
-## 2 CDISCP… 701    01-701… Plac…     0    63 &lt;65          1 WHITE     1 F    
-## 3 CDISCP… 701    01-701… Plac…     0    63 &lt;65          1 WHITE     1 F    
-## 4 CDISCP… 701    01-701… Plac…     0    64 &lt;65          1 WHITE     1 M    
-## 5 CDISCP… 701    01-701… Plac…     0    64 &lt;65          1 WHITE     1 M    
-## 6 CDISCP… 701    01-701… Plac…     0    64 &lt;65          1 WHITE     1 M    
-## # … with 44 more variables: SAFFL &lt;chr&gt;, TRTSDT &lt;date&gt;, TRTEDT &lt;date&gt;,
-## #   ASTDT &lt;date&gt;, ASTDTF &lt;chr&gt;, ASTDY &lt;dbl&gt;, AENDT &lt;date&gt;, AENDY &lt;dbl&gt;,
-## #   ADURN &lt;dbl&gt;, ADURU &lt;chr&gt;, AETERM &lt;chr&gt;, AELLT &lt;chr&gt;, AELLTCD &lt;dbl&gt;,
-## #   AEDECOD &lt;chr&gt;, AEPTCD &lt;dbl&gt;, AEHLT &lt;chr&gt;, AEHLTCD &lt;dbl&gt;, AEHLGT &lt;chr&gt;,
-## #   AEHLGTCD &lt;dbl&gt;, AEBODSYS &lt;chr&gt;, AESOC &lt;chr&gt;, AESOCCD &lt;dbl&gt;, AESEV &lt;chr&gt;,
-## #   AESER &lt;chr&gt;, AESCAN &lt;chr&gt;, AESCONG &lt;chr&gt;, AESDISAB &lt;chr&gt;, AESDTH &lt;chr&gt;,
-## #   AESHOSP &lt;chr&gt;, AESLIFE &lt;chr&gt;, AESOD &lt;chr&gt;, AEREL &lt;chr&gt;, AEACN &lt;chr&gt;,
-## #   AEOUT &lt;chr&gt;, AESEQ &lt;dbl&gt;, TRTEMFL &lt;chr&gt;, AOCCFL &lt;chr&gt;, AOCCSFL &lt;chr&gt;,
-## #   AOCCPFL &lt;chr&gt;, AOCC02FL &lt;chr&gt;, AOCC03FL &lt;chr&gt;, AOCC04FL &lt;chr&gt;,
-## #   CQ01NAM &lt;chr&gt;, AOCC01FL &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="kw">summary</span>(ADVS)</a></code></pre></div>
-<pre><code>##    STUDYID             SITEID            USUBJID              TRTA          
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##      TRTAN            AGE           AGEGR1             AGEGR1N     
-##  Min.   : 0.00   Min.   :51.00   Length:1191        Min.   :1.000  
-##  1st Qu.: 0.00   1st Qu.:69.50   Class :character   1st Qu.:2.000  
-##  Median :54.00   Median :77.00   Mode  :character   Median :2.000  
-##  Mean   :50.67   Mean   :74.82                      Mean   :2.131  
-##  3rd Qu.:81.00   3rd Qu.:81.00                      3rd Qu.:3.000  
-##  Max.   :81.00   Max.   :89.00                      Max.   :3.000  
-##                                                                    
-##      RACE               RACEN           SEX               SAFFL          
-##  Length:1191        Min.   :1.000   Length:1191        Length:1191       
-##  Class :character   1st Qu.:1.000   Class :character   Class :character  
-##  Mode  :character   Median :1.000   Mode  :character   Mode  :character  
-##                     Mean   :1.139                                        
-##                     3rd Qu.:1.000                                        
-##                     Max.   :6.000                                        
-##                                                                          
-##      TRTSDT               TRTEDT               ASTDT           
-##  Min.   :2012-07-09   Min.   :2012-08-28   Min.   :1994-04-01  
-##  1st Qu.:2013-01-25   1st Qu.:2013-05-23   1st Qu.:2013-03-04  
-##  Median :2013-05-20   Median :2013-09-26   Median :2013-06-30  
-##  Mean   :2013-06-05   Mean   :2013-10-04   Mean   :2013-07-09  
-##  3rd Qu.:2013-10-24   3rd Qu.:2014-02-20   3rd Qu.:2013-11-27  
-##  Max.   :2014-09-02   Max.   :2015-03-05   Max.   :2014-11-03  
-##                                            NA&#39;s   :11          
-##     ASTDTF              ASTDY              AENDT                AENDY       
-##  Length:1191        Min.   :-6970.00   Min.   :2012-08-03   Min.   : -2.00  
-##  Class :character   1st Qu.:   15.00   1st Qu.:2013-03-20   1st Qu.: 27.00  
-##  Mode  :character   Median :   31.50   Median :2013-07-08   Median : 53.00  
-##                     Mean   :   34.22   Mean   :2013-08-03   Mean   : 67.14  
-##                     3rd Qu.:   63.00   3rd Qu.:2013-12-14   3rd Qu.:101.25  
-##                     Max.   :  194.00   Max.   :2014-10-31   Max.   :211.00  
-##                     NA&#39;s   :11         NA&#39;s   :473          NA&#39;s   :473     
-##      ADURN           ADURU              AETERM             AELLT          
-##  Min.   :  1.00   Length:1191        Length:1191        Length:1191       
-##  1st Qu.:  2.00   Class :character   Class :character   Class :character  
-##  Median : 11.00   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   : 23.84                                                           
-##  3rd Qu.: 27.00                                                           
-##  Max.   :444.00                                                           
-##  NA&#39;s   :477                                                              
-##     AELLTCD       AEDECOD              AEPTCD        AEHLT          
-##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
-##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
-##  Median : NA    Mode  :character   Median : NA    Mode  :character  
-##  Mean   :NaN                       Mean   :NaN                      
-##  3rd Qu.: NA                       3rd Qu.: NA                      
-##  Max.   : NA                       Max.   : NA                      
-##  NA&#39;s   :1191                      NA&#39;s   :1191                     
-##     AEHLTCD        AEHLGT             AEHLGTCD      AEBODSYS        
-##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
-##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
-##  Median : NA    Mode  :character   Median : NA    Mode  :character  
-##  Mean   :NaN                       Mean   :NaN                      
-##  3rd Qu.: NA                       3rd Qu.: NA                      
-##  Max.   : NA                       Max.   : NA                      
-##  NA&#39;s   :1191                      NA&#39;s   :1191                     
-##     AESOC              AESOCCD        AESEV              AESER          
-##  Length:1191        Min.   : NA    Length:1191        Length:1191       
-##  Class :character   1st Qu.: NA    Class :character   Class :character  
-##  Mode  :character   Median : NA    Mode  :character   Mode  :character  
-##                     Mean   :NaN                                         
-##                     3rd Qu.: NA                                         
-##                     Max.   : NA                                         
-##                     NA&#39;s   :1191                                        
-##     AESCAN            AESCONG            AESDISAB            AESDTH         
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    AESHOSP            AESLIFE             AESOD              AEREL          
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##     AEACN              AEOUT               AESEQ         TRTEMFL         
-##  Length:1191        Length:1191        Min.   : 1.00   Length:1191       
-##  Class :character   Class :character   1st Qu.: 2.00   Class :character  
-##  Mode  :character   Mode  :character   Median : 4.00   Mode  :character  
-##                                        Mean   : 4.53                     
-##                                        3rd Qu.: 6.00                     
-##                                        Max.   :23.00                     
-##                                                                          
-##     AOCCFL            AOCCSFL            AOCCPFL            AOCC02FL        
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    AOCC03FL           AOCC04FL           CQ01NAM            AOCC01FL        
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-## </code></pre>
+<p>Try also <code>View(ADSL)</code></p>
+<div id="what-is-a-data-frame" class="section level2">
+<h2><span class="header-section-number">6.1</span> What is a data frame?</h2>
+<p>Data frames are the de facto data structure for most tabular data, and what we use for statistics and plotting.</p>
+<p>A data frame can be created by hand, but most commonly they are generated after importing spreadsheets from your hard drive (or the web).</p>
+<p>A data frame is the representation of data in the format of a table where the columns are vectors that all have the same length. Because columns are vectors, each column must contain a single type of data (e.g., characters, integers, factors). For example, here is a figure depicting a data frame comprising a numeric, a character, and a logical vector.</p>
+<p>We can see this when inspecting the structure of a data frame with the function <code>str()</code>:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">str</span>(ADSL)</a></code></pre></div>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    254 obs. of  48 variables:
+##  $ STUDYID : chr  &quot;CDISCPILOT01&quot; &quot;CDISCPILOT01&quot; &quot;CDISCPILOT01&quot; &quot;CDISCPILOT01&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Study Identifier&quot;
+##  $ USUBJID : chr  &quot;01-701-1015&quot; &quot;01-701-1023&quot; &quot;01-701-1028&quot; &quot;01-701-1033&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Unique Subject Identifier&quot;
+##  $ SUBJID  : chr  &quot;1015&quot; &quot;1023&quot; &quot;1028&quot; &quot;1033&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Subject Identifier for the Study&quot;
+##  $ SITEID  : chr  &quot;701&quot; &quot;701&quot; &quot;701&quot; &quot;701&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Study Site Identifier&quot;
+##  $ SITEGR1 : chr  &quot;701&quot; &quot;701&quot; &quot;701&quot; &quot;701&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Pooled Site Group 1&quot;
+##  $ ARM     : chr  &quot;Placebo&quot; &quot;Placebo&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Description of Planned Arm&quot;
+##  $ TRT01P  : chr  &quot;Placebo&quot; &quot;Placebo&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Planned Treatment for Period 01&quot;
+##  $ TRT01PN : num  0 0 81 54 81 0 54 54 54 0 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Planned Treatment for Period 01 (N)&quot;
+##  $ TRT01A  : chr  &quot;Placebo&quot; &quot;Placebo&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Actual Treatment for Period 01&quot;
+##  $ TRT01AN : num  0 0 81 54 81 0 54 54 54 0 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Actual Treatment for Period 01 (N)&quot;
+##  $ TRTSDT  : Date, format: &quot;2014-01-02&quot; &quot;2012-08-05&quot; ...
+##  $ TRTEDT  : Date, format: &quot;2014-07-02&quot; &quot;2012-09-01&quot; ...
+##  $ TRTDURD : num  182 28 180 14 183 26 190 10 55 182 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Total Treatment Duration (Days)&quot;
+##  $ AVGDD   : num  0 0 77.7 54 76.9 0 54 54 54 0 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Avg Daily Dose (as planned)&quot;
+##  $ CUMDOSE : num  0 0 13986 756 14067 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Cumulative Dose (as planned)&quot;
+##  $ AGE     : num  63 64 71 74 77 85 68 81 84 52 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Age&quot;
+##  $ AGEGR1  : chr  &quot;&lt;65&quot; &quot;&lt;65&quot; &quot;65-80&quot; &quot;65-80&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Pooled Age Group 1&quot;
+##  $ AGEGR1N : num  1 1 2 2 2 3 2 3 3 1 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Pooled Age Group 1 (N)&quot;
+##  $ AGEU    : chr  &quot;YEARS&quot; &quot;YEARS&quot; &quot;YEARS&quot; &quot;YEARS&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Age Units&quot;
+##  $ RACE    : chr  &quot;WHITE&quot; &quot;WHITE&quot; &quot;WHITE&quot; &quot;WHITE&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Race&quot;
+##  $ RACEN   : num  1 1 1 1 1 1 1 1 1 1 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Race (N)&quot;
+##  $ SEX     : chr  &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Sex&quot;
+##  $ ETHNIC  : chr  &quot;HISPANIC OR LATINO&quot; &quot;HISPANIC OR LATINO&quot; &quot;NOT HISPANIC OR LATINO&quot; &quot;NOT HISPANIC OR LATINO&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Ethnicity&quot;
+##  $ SAFFL   : chr  &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Safety Population Flag&quot;
+##  $ ITTFL   : chr  &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Intent-To-Treat Population Flag&quot;
+##  $ EFFFL   : chr  &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; &quot;Y&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Efficacy Population Flag&quot;
+##  $ COMP8FL : chr  &quot;Y&quot; &quot;N&quot; &quot;Y&quot; &quot;N&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Completers of Week 8 Population Flag&quot;
+##  $ COMP16FL: chr  &quot;Y&quot; &quot;N&quot; &quot;Y&quot; &quot;N&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Completers of Week 16 Population Flag&quot;
+##  $ COMP24FL: chr  &quot;Y&quot; &quot;N&quot; &quot;Y&quot; &quot;N&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Completers of Week 24 Population Flag&quot;
+##  $ DISCONFL: chr  &quot;&quot; &quot;Y&quot; &quot;&quot; &quot;Y&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Subject Discontinued Study Flag&quot;
+##  $ DSRAEFL : chr  &quot;&quot; &quot;Y&quot; &quot;&quot; &quot;&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Subject Discontinued due to AE Flag&quot;
+##  $ DTHFL   : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Subject Death Flag&quot;
+##  $ BMIBL   : num  25.1 30.4 31.4 28.8 26.1 30.4 27.3 23.9 23.9 21.9 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Baseline BMI (kg/m^2)&quot;
+##  $ BMIBLGR1: chr  &quot;25-&lt;30&quot; &quot;&gt;=30&quot; &quot;&gt;=30&quot; &quot;25-&lt;30&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Pooled Baseline BMI Group 1&quot;
+##  $ HEIGHTBL: num  147 163 178 175 155 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Baseline Height (cm)&quot;
+##  $ WEIGHTBL: num  54.4 80.3 99.3 88.5 62.6 67.1 78 59.9 78.9 71.2 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Baseline Weight (kg)&quot;
+##  $ EDUCLVL : num  16 14 16 12 9 8 18 22 12 14 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Years of Education&quot;
+##  $ DISONDT : Date, format: &quot;2010-04-30&quot; &quot;2006-03-11&quot; ...
+##  $ DURDIS  : num  43.9 76.4 42.8 55.3 32.9 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Duration of Disease (Months)&quot;
+##  $ DURDSGR1: chr  &quot;&gt;=12&quot; &quot;&gt;=12&quot; &quot;&gt;=12&quot; &quot;&gt;=12&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Pooled Disease Duration Group 1&quot;
+##  $ VISIT1DT: Date, format: &quot;2013-12-26&quot; &quot;2012-07-22&quot; ...
+##  $ RFSTDTC : chr  &quot;2014-01-02&quot; &quot;2012-08-05&quot; &quot;2013-07-19&quot; &quot;2014-03-18&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Subject Reference Start Date/Time&quot;
+##  $ RFENDTC : chr  &quot;2014-07-02&quot; &quot;2012-09-02&quot; &quot;2014-01-14&quot; &quot;2014-04-14&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Subject Reference End Date/Time&quot;
+##  $ VISNUMEN: num  12 5 12 5 12 6 12 4 8 12 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;End of Trt Visit (Vis 12 or Early Term.)&quot;
+##  $ RFENDT  : Date, format: &quot;2014-07-02&quot; &quot;2012-09-02&quot; ...
+##  $ DCDECOD : chr  &quot;COMPLETED&quot; &quot;ADVERSE EVENT&quot; &quot;COMPLETED&quot; &quot;STUDY TERMINATED BY SPONSOR&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Standardized Disposition Term&quot;
+##  $ DCSREAS : chr  &quot;Completed&quot; &quot;Adverse Event&quot; &quot;Completed&quot; &quot;Sponsor Decision&quot; ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;Reason for Discontinuation from Study&quot;
+##  $ MMSETOT : num  23 23 23 23 21 23 10 23 20 20 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;MMSE Total&quot;
+##  - attr(*, &quot;label&quot;)= chr &quot;Subject Level Analysis&quot;</code></pre>
+<p>We already saw how the functions <code>head()</code> and <code>str()</code> can be useful to check the content and the structure of a data frame. Here is a non-exhaustive list of functions to get a sense of the content/structure of the data. Let’s try them out!</p>
+<ul>
+<li>Size:
+<ul>
+<li>dim(ADSL) - returns a vector with the number of rows in the first element, and the number of columns as the second element (the dimensions of the object)</li>
+<li>nrow(ADSL) - returns the number of rows</li>
+<li>ncol(ADSL) - returns the number of columns</li>
+</ul></li>
+<li>Content:
+<ul>
+<li>head(ADSL) - shows the first 6 rows</li>
+<li>tail(ADSL) - shows the last 6 rows</li>
+</ul></li>
+<li>Names:
+<ul>
+<li>names(ADSL) - returns the column names (synonym of colnames() for data.frame objects)</li>
+<li>rownames(ADSL) - returns the row names</li>
+</ul></li>
+<li>Summary:
+<ul>
+<li>str(ADSL) - structure of the object and information about the class, length and content of each column</li>
+<li>summary(ADSL) - summary statistics for each column</li>
+</ul></li>
+</ul>
+<p>Note: most of these functions are “generic”, they can be used on other types of objects besides <code>data.frame</code>.</p>
+</div>
+<div id="exersize" class="section level2">
+<h2><span class="header-section-number">6.2</span> Exersize</h2>
+<p>Based on the output of <code>str(ADSL)</code>, can you answer the following questions?</p>
+<ul>
+<li>What is the class of the object ADSL?</li>
+<li>How many rows and how many columns are in this object?</li>
+</ul>
+</div>
+<div id="indexing-and-subsetting-data-frames" class="section level2">
+<h2><span class="header-section-number">6.3</span> Indexing and Subsetting Data Frames</h2>
+<p>Our data frame has rows and columns (it has 2 dimensions), if we want to extract some specific data from it, we need to specify the “coordinates” we want from it. Row numbers come first, followed by column numbers. However, note that different ways of specifying these coordinates lead to results with different classes.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># first element in the first column of the data frame (as a vector)</span></a>
+<a class="sourceLine" id="cb92-2" data-line-number="2">ADSL[<span class="dv">1</span>, <span class="dv">1</span>]   </a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   STUDYID     
+##   &lt;chr&gt;       
+## 1 CDISCPILOT01</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># first element in the 6th column (as a vector)</span></a>
+<a class="sourceLine" id="cb94-2" data-line-number="2">ADSL[<span class="dv">1</span>, <span class="dv">6</span>]   </a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   ARM    
+##   &lt;chr&gt;  
+## 1 Placebo</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># first column of the data frame (as a vector)</span></a>
+<a class="sourceLine" id="cb96-2" data-line-number="2">ADSL[, <span class="dv">1</span>] </a></code></pre></div>
+<pre><code>## # A tibble: 254 x 1
+##    STUDYID     
+##    &lt;chr&gt;       
+##  1 CDISCPILOT01
+##  2 CDISCPILOT01
+##  3 CDISCPILOT01
+##  4 CDISCPILOT01
+##  5 CDISCPILOT01
+##  6 CDISCPILOT01
+##  7 CDISCPILOT01
+##  8 CDISCPILOT01
+##  9 CDISCPILOT01
+## 10 CDISCPILOT01
+## # … with 244 more rows</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="co"># first column of the data frame (as a data.frame)</span></a>
+<a class="sourceLine" id="cb98-2" data-line-number="2">ADSL[<span class="dv">1</span>]    </a></code></pre></div>
+<pre><code>## # A tibble: 254 x 1
+##    STUDYID     
+##    &lt;chr&gt;       
+##  1 CDISCPILOT01
+##  2 CDISCPILOT01
+##  3 CDISCPILOT01
+##  4 CDISCPILOT01
+##  5 CDISCPILOT01
+##  6 CDISCPILOT01
+##  7 CDISCPILOT01
+##  8 CDISCPILOT01
+##  9 CDISCPILOT01
+## 10 CDISCPILOT01
+## # … with 244 more rows</code></pre>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="co"># first three elements in the 7th column (as a vector)</span></a>
+<a class="sourceLine" id="cb100-2" data-line-number="2">ADSL[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">7</span>] </a></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   TRT01P              
+##   &lt;chr&gt;               
+## 1 Placebo             
+## 2 Placebo             
+## 3 Xanomeline High Dose</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="co"># the 3rd row of the data frame (as a data.frame)</span></a>
+<a class="sourceLine" id="cb102-2" data-line-number="2">ADSL[<span class="dv">3</span>, ]</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 48
+##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 CDISCP… 01-701… 1028   701    701     Xano… Xanom…      81 Xanom…      81
+## # … with 38 more variables: TRTSDT &lt;date&gt;, TRTEDT &lt;date&gt;, TRTDURD &lt;dbl&gt;,
+## #   AVGDD &lt;dbl&gt;, CUMDOSE &lt;dbl&gt;, AGE &lt;dbl&gt;, AGEGR1 &lt;chr&gt;, AGEGR1N &lt;dbl&gt;,
+## #   AGEU &lt;chr&gt;, RACE &lt;chr&gt;, RACEN &lt;dbl&gt;, SEX &lt;chr&gt;, ETHNIC &lt;chr&gt;, SAFFL &lt;chr&gt;,
+## #   ITTFL &lt;chr&gt;, EFFFL &lt;chr&gt;, COMP8FL &lt;chr&gt;, COMP16FL &lt;chr&gt;, COMP24FL &lt;chr&gt;,
+## #   DISCONFL &lt;chr&gt;, DSRAEFL &lt;chr&gt;, DTHFL &lt;chr&gt;, BMIBL &lt;dbl&gt;, BMIBLGR1 &lt;chr&gt;,
+## #   HEIGHTBL &lt;dbl&gt;, WEIGHTBL &lt;dbl&gt;, EDUCLVL &lt;dbl&gt;, DISONDT &lt;date&gt;,
+## #   DURDIS &lt;dbl&gt;, DURDSGR1 &lt;chr&gt;, VISIT1DT &lt;date&gt;, RFSTDTC &lt;chr&gt;,
+## #   RFENDTC &lt;chr&gt;, VISNUMEN &lt;dbl&gt;, RFENDT &lt;date&gt;, DCDECOD &lt;chr&gt;, DCSREAS &lt;chr&gt;,
+## #   MMSETOT &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="co"># equivalent to head_ADSL &lt;- head(ADSL)</span></a>
+<a class="sourceLine" id="cb104-2" data-line-number="2">head_ADSL &lt;-<span class="st"> </span>ADSL[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, ] </a></code></pre></div>
+<p><code>:</code> is a special function that creates numeric vectors of integers in increasing or decreasing order, test <code>1:10</code> and <code>10:1</code> for instance.</p>
+<p>You can also exclude certain indices of a data frame using the <code>-</code> sign:</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1">ADSL[, <span class="dv">-1</span>]          <span class="co"># The whole data frame, except the first column</span></a></code></pre></div>
+<pre><code>## # A tibble: 254 x 47
+##    USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN TRTSDT    
+##    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;date&gt;    
+##  1 01-701… 1015   701    701     Plac… Place…       0 Place…       0 2014-01-02
+##  2 01-701… 1023   701    701     Plac… Place…       0 Place…       0 2012-08-05
+##  3 01-701… 1028   701    701     Xano… Xanom…      81 Xanom…      81 2013-07-19
+##  4 01-701… 1033   701    701     Xano… Xanom…      54 Xanom…      54 2014-03-18
+##  5 01-701… 1034   701    701     Xano… Xanom…      81 Xanom…      81 2014-07-01
+##  6 01-701… 1047   701    701     Plac… Place…       0 Place…       0 2013-02-12
+##  7 01-701… 1097   701    701     Xano… Xanom…      54 Xanom…      54 2014-01-01
+##  8 01-701… 1111   701    701     Xano… Xanom…      54 Xanom…      54 2012-09-07
+##  9 01-701… 1115   701    701     Xano… Xanom…      54 Xanom…      54 2012-11-30
+## 10 01-701… 1118   701    701     Plac… Place…       0 Place…       0 2014-03-12
+## # … with 244 more rows, and 37 more variables: TRTEDT &lt;date&gt;, TRTDURD &lt;dbl&gt;,
+## #   AVGDD &lt;dbl&gt;, CUMDOSE &lt;dbl&gt;, AGE &lt;dbl&gt;, AGEGR1 &lt;chr&gt;, AGEGR1N &lt;dbl&gt;,
+## #   AGEU &lt;chr&gt;, RACE &lt;chr&gt;, RACEN &lt;dbl&gt;, SEX &lt;chr&gt;, ETHNIC &lt;chr&gt;, SAFFL &lt;chr&gt;,
+## #   ITTFL &lt;chr&gt;, EFFFL &lt;chr&gt;, COMP8FL &lt;chr&gt;, COMP16FL &lt;chr&gt;, COMP24FL &lt;chr&gt;,
+## #   DISCONFL &lt;chr&gt;, DSRAEFL &lt;chr&gt;, DTHFL &lt;chr&gt;, BMIBL &lt;dbl&gt;, BMIBLGR1 &lt;chr&gt;,
+## #   HEIGHTBL &lt;dbl&gt;, WEIGHTBL &lt;dbl&gt;, EDUCLVL &lt;dbl&gt;, DISONDT &lt;date&gt;,
+## #   DURDIS &lt;dbl&gt;, DURDSGR1 &lt;chr&gt;, VISIT1DT &lt;date&gt;, RFSTDTC &lt;chr&gt;,
+## #   RFENDTC &lt;chr&gt;, VISNUMEN &lt;dbl&gt;, RFENDT &lt;date&gt;, DCDECOD &lt;chr&gt;, DCSREAS &lt;chr&gt;,
+## #   MMSETOT &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">ADSL[<span class="op">-</span><span class="kw">c</span>(<span class="dv">7</span><span class="op">:</span><span class="dv">254</span>), ]   <span class="co"># Equivalent to head(surveys)</span></a></code></pre></div>
+<pre><code>## # A tibble: 6 x 48
+##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 CDISCP… 01-701… 1015   701    701     Plac… Place…       0 Place…       0
+## 2 CDISCP… 01-701… 1023   701    701     Plac… Place…       0 Place…       0
+## 3 CDISCP… 01-701… 1028   701    701     Xano… Xanom…      81 Xanom…      81
+## 4 CDISCP… 01-701… 1033   701    701     Xano… Xanom…      54 Xanom…      54
+## 5 CDISCP… 01-701… 1034   701    701     Xano… Xanom…      81 Xanom…      81
+## 6 CDISCP… 01-701… 1047   701    701     Plac… Place…       0 Place…       0
+## # … with 38 more variables: TRTSDT &lt;date&gt;, TRTEDT &lt;date&gt;, TRTDURD &lt;dbl&gt;,
+## #   AVGDD &lt;dbl&gt;, CUMDOSE &lt;dbl&gt;, AGE &lt;dbl&gt;, AGEGR1 &lt;chr&gt;, AGEGR1N &lt;dbl&gt;,
+## #   AGEU &lt;chr&gt;, RACE &lt;chr&gt;, RACEN &lt;dbl&gt;, SEX &lt;chr&gt;, ETHNIC &lt;chr&gt;, SAFFL &lt;chr&gt;,
+## #   ITTFL &lt;chr&gt;, EFFFL &lt;chr&gt;, COMP8FL &lt;chr&gt;, COMP16FL &lt;chr&gt;, COMP24FL &lt;chr&gt;,
+## #   DISCONFL &lt;chr&gt;, DSRAEFL &lt;chr&gt;, DTHFL &lt;chr&gt;, BMIBL &lt;dbl&gt;, BMIBLGR1 &lt;chr&gt;,
+## #   HEIGHTBL &lt;dbl&gt;, WEIGHTBL &lt;dbl&gt;, EDUCLVL &lt;dbl&gt;, DISONDT &lt;date&gt;,
+## #   DURDIS &lt;dbl&gt;, DURDSGR1 &lt;chr&gt;, VISIT1DT &lt;date&gt;, RFSTDTC &lt;chr&gt;,
+## #   RFENDTC &lt;chr&gt;, VISNUMEN &lt;dbl&gt;, RFENDT &lt;date&gt;, DCDECOD &lt;chr&gt;, DCSREAS &lt;chr&gt;,
+## #   MMSETOT &lt;dbl&gt;</code></pre>
+<p>Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">ADSL[<span class="st">&quot;ARM&quot;</span>]       <span class="co"># Result is a data.frame</span></a></code></pre></div>
+<pre><code>## # A tibble: 254 x 1
+##    ARM                 
+##    &lt;chr&gt;               
+##  1 Placebo             
+##  2 Placebo             
+##  3 Xanomeline High Dose
+##  4 Xanomeline Low Dose 
+##  5 Xanomeline High Dose
+##  6 Placebo             
+##  7 Xanomeline Low Dose 
+##  8 Xanomeline Low Dose 
+##  9 Xanomeline Low Dose 
+## 10 Placebo             
+## # … with 244 more rows</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1">ADSL[, <span class="st">&quot;ARM&quot;</span>]     <span class="co"># Result is a vector</span></a></code></pre></div>
+<pre><code>## # A tibble: 254 x 1
+##    ARM                 
+##    &lt;chr&gt;               
+##  1 Placebo             
+##  2 Placebo             
+##  3 Xanomeline High Dose
+##  4 Xanomeline Low Dose 
+##  5 Xanomeline High Dose
+##  6 Placebo             
+##  7 Xanomeline Low Dose 
+##  8 Xanomeline Low Dose 
+##  9 Xanomeline Low Dose 
+## 10 Placebo             
+## # … with 244 more rows</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">ADSL[[<span class="st">&quot;ARM&quot;</span>]]     <span class="co"># Result is a vector</span></a></code></pre></div>
+<pre><code>##   [1] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##   [4] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##   [7] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+##  [10] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##  [13] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##  [16] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [19] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [22] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+##  [25] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+##  [28] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+##  [31] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##  [34] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+##  [37] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+##  [40] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [43] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [46] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [49] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+##  [52] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [55] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##  [58] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+##  [61] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+##  [64] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+##  [67] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [70] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [73] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+##  [76] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##  [79] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+##  [82] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Placebo&quot;             
+##  [85] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [88] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [91] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##  [94] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+##  [97] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [100] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [103] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [106] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [109] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [112] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [115] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [118] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [121] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [124] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [127] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [130] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [133] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [136] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [139] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [142] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [145] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [148] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [151] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [154] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [157] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [160] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [163] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [166] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [169] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [172] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [175] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [178] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [181] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [184] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [187] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [190] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [193] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [196] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [199] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [202] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [205] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [208] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [211] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [214] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [217] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [220] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [223] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [226] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [229] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [232] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [235] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [238] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [241] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [244] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [247] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [250] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [253] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## attr(,&quot;label&quot;)
+## [1] &quot;Description of Planned Arm&quot;</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">ADSL<span class="op">$</span>ARM          <span class="co"># Result is a vector</span></a></code></pre></div>
+<pre><code>##   [1] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##   [4] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##   [7] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+##  [10] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##  [13] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##  [16] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [19] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [22] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+##  [25] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+##  [28] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+##  [31] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##  [34] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+##  [37] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+##  [40] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [43] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [46] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [49] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+##  [52] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [55] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##  [58] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+##  [61] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+##  [64] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+##  [67] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+##  [70] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [73] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+##  [76] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+##  [79] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+##  [82] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Placebo&quot;             
+##  [85] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [88] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+##  [91] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+##  [94] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+##  [97] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [100] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [103] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [106] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [109] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [112] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [115] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [118] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [121] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [124] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [127] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [130] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [133] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [136] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [139] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [142] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [145] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [148] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [151] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [154] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [157] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [160] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [163] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [166] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [169] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [172] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [175] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [178] &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot; 
+## [181] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [184] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [187] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [190] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [193] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [196] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [199] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [202] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [205] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [208] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [211] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [214] &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot;
+## [217] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [220] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [223] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [226] &quot;Xanomeline High Dose&quot; &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;             
+## [229] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [232] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [235] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## [238] &quot;Placebo&quot;              &quot;Placebo&quot;              &quot;Xanomeline High Dose&quot;
+## [241] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline Low Dose&quot; 
+## [244] &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;              &quot;Placebo&quot;             
+## [247] &quot;Xanomeline Low Dose&quot;  &quot;Placebo&quot;              &quot;Xanomeline Low Dose&quot; 
+## [250] &quot;Xanomeline Low Dose&quot;  &quot;Xanomeline High Dose&quot; &quot;Placebo&quot;             
+## [253] &quot;Xanomeline High Dose&quot; &quot;Xanomeline High Dose&quot;
+## attr(,&quot;label&quot;)
+## [1] &quot;Description of Planned Arm&quot;</code></pre>
+</div>
+<div id="exercise-1" class="section level2">
+<h2><span class="header-section-number">6.4</span> Exercise</h2>
+<ol style="list-style-type: decimal">
+<li><p>Ceate a <code>data.frame</code> (<code>ADSL_50</code>) containing only the data in row 50 of the <code>ADSL</code> dataset.</p></li>
+<li>Notice how nrow() gave you the number of rows in a data.frame?</li>
+</ol>
+<ul>
+<li>Use that number to pull out just that last row in the data frame.</li>
+<li>Compare that with what you see as the last row using <code>tail()</code> to make sure it’s meeting expectations.</li>
+<li>Pull out that last row using <code>nrow()</code> instead of the row number.</li>
+<li>Create a new data frame (<code>ADSL_last</code>) from that last row.</li>
+<li>Use <code>nrow()</code> to extract the row that is in the middle of the data frame. Store the content of this row in an object named <code>ADSL_middle</code>.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Combine <code>nrow()</code> with the <code>-</code> notation above to reproduce the behavior of head(ADSL), keeping just the first through 6th rows of the ADSL dataset.</li>
+</ol>
+</div>
+<div id="factors" class="section level2">
+<h2><span class="header-section-number">6.5</span> Factors</h2>
 
+</div>
 </div>
             </section>
 

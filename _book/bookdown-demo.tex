@@ -992,7 +992,7 @@ Now that we have learned how to write scripts, and the basics of R's data struct
 \hypertarget{starting-with-data}{%
 \chapter{Starting With Data}\label{starting-with-data}}
 
-Because ADaM datasets are commonly stored as \texttt{.sas7bdat} files or \texttt{.xpt} files, we will need to install the package \texttt{haven}, which enables R to read and write SAS and XPT formats. To install a package we call the function \texttt{install.packages}, then to use that library we must call it.
+R has built in functions to bring in data like \texttt{read.csv()}, but because ADaM datasets are commonly stored as \texttt{.sas7bdat} files or \texttt{.xpt} files, we will need to install the package \texttt{haven}. This package enables R to read and write SAS and XPT formats. To install a package we call the function \texttt{install.packages} (we only need to do this once), then to use that package we must call it using \texttt{library}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1001,11 +1001,20 @@ Because ADaM datasets are commonly stored as \texttt{.sas7bdat} files or \texttt
 \end{Highlighting}
 \end{Shaded}
 
-Now we can inspect our two datafiles, the ADSL and ADAE taken from XYZ by saving them as objects. We'll use the \texttt{head} function to look at the first 6 rows of our data, and the \texttt{summary} function to get some basic statistics around each column in each dataframe.
+Let's start with out ADSL file which we placed in \texttt{raw\_data}, and save it as an object.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{ADSL <-}\StringTok{ }\KeywordTok{read_xpt}\NormalTok{(}\StringTok{"data_raw/adsl.xpt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This statement doesn't produce any output because assignments don't display anything. If we want to check that our data has loaded we can see the contents by typing the name of the data\ldots{} but that's a lot of output!
+
+Instead we'll check the top (the first 6 lines) of our datasets using the function \texttt{head()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{head}\NormalTok{(ADSL)}
 \end{Highlighting}
 \end{Shaded}
@@ -1031,260 +1040,648 @@ Now we can inspect our two datafiles, the ADSL and ADAE taken from XYZ by saving
 ## #   MMSETOT <dbl>
 \end{verbatim}
 
+Try also \texttt{View(ADSL)}
+
+\hypertarget{what-is-a-data-frame}{%
+\section{What is a data frame?}\label{what-is-a-data-frame}}
+
+Data frames are the de facto data structure for most tabular data, and what we use for statistics and plotting.
+
+A data frame can be created by hand, but most commonly they are generated after importing spreadsheets from your hard drive (or the web).
+
+A data frame is the representation of data in the format of a table where the columns are vectors that all have the same length. Because columns are vectors, each column must contain a single type of data (e.g., characters, integers, factors). For example, here is a figure depicting a data frame comprising a numeric, a character, and a logical vector.
+
+We can see this when inspecting the structure of a data frame with the function \texttt{str()}:
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(ADSL)}
+\KeywordTok{str}\NormalTok{(ADSL)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##    STUDYID            USUBJID             SUBJID             SITEID         
-##  Length:254         Length:254         Length:254         Length:254        
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    SITEGR1              ARM               TRT01P             TRT01PN     
-##  Length:254         Length:254         Length:254         Min.   : 0.00  
-##  Class :character   Class :character   Class :character   1st Qu.: 0.00  
-##  Mode  :character   Mode  :character   Mode  :character   Median :54.00  
-##                                                           Mean   :44.65  
-##                                                           3rd Qu.:81.00  
-##                                                           Max.   :81.00  
-##                                                                          
-##     TRT01A             TRT01AN          TRTSDT               TRTEDT          
-##  Length:254         Min.   : 0.00   Min.   :2012-07-09   Min.   :2012-08-28  
-##  Class :character   1st Qu.: 0.00   1st Qu.:2013-01-26   1st Qu.:2013-05-12  
-##  Mode  :character   Median :54.00   Median :2013-06-13   Median :2013-09-27  
-##                     Mean   :44.65   Mean   :2013-06-17   Mean   :2013-10-10  
-##                     3rd Qu.:81.00   3rd Qu.:2013-11-07   3rd Qu.:2014-03-15  
-##                     Max.   :81.00   Max.   :2014-09-02   Max.   :2015-03-05  
-##                                                                              
-##     TRTDURD           AVGDD          CUMDOSE           AGE       
-##  Min.   :  1.00   Min.   : 0.00   Min.   :    0   Min.   :51.00  
-##  1st Qu.: 46.25   1st Qu.: 0.00   1st Qu.:    0   1st Qu.:70.00  
-##  Median :133.50   Median :54.00   Median : 2322   Median :77.00  
-##  Mean   :116.09   Mean   :41.54   Mean   : 4266   Mean   :75.09  
-##  3rd Qu.:183.00   3rd Qu.:70.10   3rd Qu.: 7810   3rd Qu.:81.00  
-##  Max.   :212.00   Max.   :78.60   Max.   :15417   Max.   :89.00  
-##                                                                  
-##     AGEGR1             AGEGR1N          AGEU               RACE          
-##  Length:254         Min.   :1.000   Length:254         Length:254        
-##  Class :character   1st Qu.:2.000   Class :character   Class :character  
-##  Mode  :character   Median :2.000   Mode  :character   Mode  :character  
-##                     Mean   :2.173                                        
-##                     3rd Qu.:3.000                                        
-##                     Max.   :3.000                                        
-##                                                                          
-##      RACEN          SEX               ETHNIC             SAFFL          
-##  Min.   :1.00   Length:254         Length:254         Length:254        
-##  1st Qu.:1.00   Class :character   Class :character   Class :character  
-##  Median :1.00   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :1.11                                                           
-##  3rd Qu.:1.00                                                           
-##  Max.   :6.00                                                           
-##                                                                         
-##     ITTFL              EFFFL             COMP8FL            COMP16FL        
-##  Length:254         Length:254         Length:254         Length:254        
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    COMP24FL           DISCONFL           DSRAEFL             DTHFL          
-##  Length:254         Length:254         Length:254         Length:254        
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##      BMIBL         BMIBLGR1            HEIGHTBL        WEIGHTBL     
-##  Min.   :13.70   Length:254         Min.   :135.9   Min.   : 34.00  
-##  1st Qu.:21.90   Class :character   1st Qu.:156.2   1st Qu.: 55.30  
-##  Median :24.20   Mode  :character   Median :162.8   Median : 66.70  
-##  Mean   :24.67                      Mean   :163.9   Mean   : 66.65  
-##  3rd Qu.:27.30                      3rd Qu.:171.5   3rd Qu.: 77.10  
-##  Max.   :40.10                      Max.   :195.6   Max.   :108.00  
-##  NA's   :1                                          NA's   :1       
-##     EDUCLVL         DISONDT               DURDIS         DURDSGR1        
-##  Min.   : 3.00   Min.   :1998-06-13   Min.   :  2.20   Length:254        
-##  1st Qu.:12.00   1st Qu.:2008-09-04   1st Qu.: 24.30   Class :character  
-##  Median :12.00   Median :2010-05-05   Median : 36.25   Mode  :character  
-##  Mean   :12.75   Mean   :2009-10-09   Mean   : 43.94                     
-##  3rd Qu.:16.00   3rd Qu.:2011-07-16   3rd Qu.: 57.35                     
-##  Max.   :24.00   Max.   :2013-09-16   Max.   :183.10                     
-##                                                                          
-##     VISIT1DT            RFSTDTC            RFENDTC             VISNUMEN     
-##  Min.   :2012-07-06   Length:254         Length:254         Min.   : 4.000  
-##  1st Qu.:2013-01-17   Class :character   Class :character   1st Qu.: 7.250  
-##  Median :2013-06-02   Mode  :character   Mode  :character   Median :11.000  
-##  Mean   :2013-06-06                                         Mean   : 9.583  
-##  3rd Qu.:2013-10-24                                         3rd Qu.:12.000  
-##  Max.   :2014-08-29                                         Max.   :12.000  
-##                                                                             
-##      RFENDT             DCDECOD            DCSREAS             MMSETOT     
-##  Min.   :2012-09-01   Length:254         Length:254         Min.   :10.00  
-##  1st Qu.:2013-05-16   Class :character   Class :character   1st Qu.:15.00  
-##  Median :2013-09-30   Mode  :character   Mode  :character   Median :19.00  
-##  Mean   :2013-10-15                                         Mean   :18.14  
-##  3rd Qu.:2014-03-20                                         3rd Qu.:22.00  
-##  Max.   :2015-03-05                                         Max.   :24.00  
-## 
+## Classes 'tbl_df', 'tbl' and 'data.frame':    254 obs. of  48 variables:
+##  $ STUDYID : chr  "CDISCPILOT01" "CDISCPILOT01" "CDISCPILOT01" "CDISCPILOT01" ...
+##   ..- attr(*, "label")= chr "Study Identifier"
+##  $ USUBJID : chr  "01-701-1015" "01-701-1023" "01-701-1028" "01-701-1033" ...
+##   ..- attr(*, "label")= chr "Unique Subject Identifier"
+##  $ SUBJID  : chr  "1015" "1023" "1028" "1033" ...
+##   ..- attr(*, "label")= chr "Subject Identifier for the Study"
+##  $ SITEID  : chr  "701" "701" "701" "701" ...
+##   ..- attr(*, "label")= chr "Study Site Identifier"
+##  $ SITEGR1 : chr  "701" "701" "701" "701" ...
+##   ..- attr(*, "label")= chr "Pooled Site Group 1"
+##  $ ARM     : chr  "Placebo" "Placebo" "Xanomeline High Dose" "Xanomeline Low Dose" ...
+##   ..- attr(*, "label")= chr "Description of Planned Arm"
+##  $ TRT01P  : chr  "Placebo" "Placebo" "Xanomeline High Dose" "Xanomeline Low Dose" ...
+##   ..- attr(*, "label")= chr "Planned Treatment for Period 01"
+##  $ TRT01PN : num  0 0 81 54 81 0 54 54 54 0 ...
+##   ..- attr(*, "label")= chr "Planned Treatment for Period 01 (N)"
+##  $ TRT01A  : chr  "Placebo" "Placebo" "Xanomeline High Dose" "Xanomeline Low Dose" ...
+##   ..- attr(*, "label")= chr "Actual Treatment for Period 01"
+##  $ TRT01AN : num  0 0 81 54 81 0 54 54 54 0 ...
+##   ..- attr(*, "label")= chr "Actual Treatment for Period 01 (N)"
+##  $ TRTSDT  : Date, format: "2014-01-02" "2012-08-05" ...
+##  $ TRTEDT  : Date, format: "2014-07-02" "2012-09-01" ...
+##  $ TRTDURD : num  182 28 180 14 183 26 190 10 55 182 ...
+##   ..- attr(*, "label")= chr "Total Treatment Duration (Days)"
+##  $ AVGDD   : num  0 0 77.7 54 76.9 0 54 54 54 0 ...
+##   ..- attr(*, "label")= chr "Avg Daily Dose (as planned)"
+##  $ CUMDOSE : num  0 0 13986 756 14067 ...
+##   ..- attr(*, "label")= chr "Cumulative Dose (as planned)"
+##  $ AGE     : num  63 64 71 74 77 85 68 81 84 52 ...
+##   ..- attr(*, "label")= chr "Age"
+##  $ AGEGR1  : chr  "<65" "<65" "65-80" "65-80" ...
+##   ..- attr(*, "label")= chr "Pooled Age Group 1"
+##  $ AGEGR1N : num  1 1 2 2 2 3 2 3 3 1 ...
+##   ..- attr(*, "label")= chr "Pooled Age Group 1 (N)"
+##  $ AGEU    : chr  "YEARS" "YEARS" "YEARS" "YEARS" ...
+##   ..- attr(*, "label")= chr "Age Units"
+##  $ RACE    : chr  "WHITE" "WHITE" "WHITE" "WHITE" ...
+##   ..- attr(*, "label")= chr "Race"
+##  $ RACEN   : num  1 1 1 1 1 1 1 1 1 1 ...
+##   ..- attr(*, "label")= chr "Race (N)"
+##  $ SEX     : chr  "F" "M" "M" "M" ...
+##   ..- attr(*, "label")= chr "Sex"
+##  $ ETHNIC  : chr  "HISPANIC OR LATINO" "HISPANIC OR LATINO" "NOT HISPANIC OR LATINO" "NOT HISPANIC OR LATINO" ...
+##   ..- attr(*, "label")= chr "Ethnicity"
+##  $ SAFFL   : chr  "Y" "Y" "Y" "Y" ...
+##   ..- attr(*, "label")= chr "Safety Population Flag"
+##  $ ITTFL   : chr  "Y" "Y" "Y" "Y" ...
+##   ..- attr(*, "label")= chr "Intent-To-Treat Population Flag"
+##  $ EFFFL   : chr  "Y" "Y" "Y" "Y" ...
+##   ..- attr(*, "label")= chr "Efficacy Population Flag"
+##  $ COMP8FL : chr  "Y" "N" "Y" "N" ...
+##   ..- attr(*, "label")= chr "Completers of Week 8 Population Flag"
+##  $ COMP16FL: chr  "Y" "N" "Y" "N" ...
+##   ..- attr(*, "label")= chr "Completers of Week 16 Population Flag"
+##  $ COMP24FL: chr  "Y" "N" "Y" "N" ...
+##   ..- attr(*, "label")= chr "Completers of Week 24 Population Flag"
+##  $ DISCONFL: chr  "" "Y" "" "Y" ...
+##   ..- attr(*, "label")= chr "Subject Discontinued Study Flag"
+##  $ DSRAEFL : chr  "" "Y" "" "" ...
+##   ..- attr(*, "label")= chr "Subject Discontinued due to AE Flag"
+##  $ DTHFL   : chr  "" "" "" "" ...
+##   ..- attr(*, "label")= chr "Subject Death Flag"
+##  $ BMIBL   : num  25.1 30.4 31.4 28.8 26.1 30.4 27.3 23.9 23.9 21.9 ...
+##   ..- attr(*, "label")= chr "Baseline BMI (kg/m^2)"
+##  $ BMIBLGR1: chr  "25-<30" ">=30" ">=30" "25-<30" ...
+##   ..- attr(*, "label")= chr "Pooled Baseline BMI Group 1"
+##  $ HEIGHTBL: num  147 163 178 175 155 ...
+##   ..- attr(*, "label")= chr "Baseline Height (cm)"
+##  $ WEIGHTBL: num  54.4 80.3 99.3 88.5 62.6 67.1 78 59.9 78.9 71.2 ...
+##   ..- attr(*, "label")= chr "Baseline Weight (kg)"
+##  $ EDUCLVL : num  16 14 16 12 9 8 18 22 12 14 ...
+##   ..- attr(*, "label")= chr "Years of Education"
+##  $ DISONDT : Date, format: "2010-04-30" "2006-03-11" ...
+##  $ DURDIS  : num  43.9 76.4 42.8 55.3 32.9 ...
+##   ..- attr(*, "label")= chr "Duration of Disease (Months)"
+##  $ DURDSGR1: chr  ">=12" ">=12" ">=12" ">=12" ...
+##   ..- attr(*, "label")= chr "Pooled Disease Duration Group 1"
+##  $ VISIT1DT: Date, format: "2013-12-26" "2012-07-22" ...
+##  $ RFSTDTC : chr  "2014-01-02" "2012-08-05" "2013-07-19" "2014-03-18" ...
+##   ..- attr(*, "label")= chr "Subject Reference Start Date/Time"
+##  $ RFENDTC : chr  "2014-07-02" "2012-09-02" "2014-01-14" "2014-04-14" ...
+##   ..- attr(*, "label")= chr "Subject Reference End Date/Time"
+##  $ VISNUMEN: num  12 5 12 5 12 6 12 4 8 12 ...
+##   ..- attr(*, "label")= chr "End of Trt Visit (Vis 12 or Early Term.)"
+##  $ RFENDT  : Date, format: "2014-07-02" "2012-09-02" ...
+##  $ DCDECOD : chr  "COMPLETED" "ADVERSE EVENT" "COMPLETED" "STUDY TERMINATED BY SPONSOR" ...
+##   ..- attr(*, "label")= chr "Standardized Disposition Term"
+##  $ DCSREAS : chr  "Completed" "Adverse Event" "Completed" "Sponsor Decision" ...
+##   ..- attr(*, "label")= chr "Reason for Discontinuation from Study"
+##  $ MMSETOT : num  23 23 23 23 21 23 10 23 20 20 ...
+##   ..- attr(*, "label")= chr "MMSE Total"
+##  - attr(*, "label")= chr "Subject Level Analysis"
 \end{verbatim}
+
+We already saw how the functions \texttt{head()} and \texttt{str()} can be useful to check the content and the structure of a data frame. Here is a non-exhaustive list of functions to get a sense of the content/structure of the data. Let's try them out!
+
+\begin{itemize}
+\tightlist
+\item
+  Size:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    dim(ADSL) - returns a vector with the number of rows in the first element, and the number of columns as the second element (the dimensions of the object)
+  \item
+    nrow(ADSL) - returns the number of rows
+  \item
+    ncol(ADSL) - returns the number of columns
+  \end{itemize}
+\item
+  Content:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    head(ADSL) - shows the first 6 rows
+  \item
+    tail(ADSL) - shows the last 6 rows
+  \end{itemize}
+\item
+  Names:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    names(ADSL) - returns the column names (synonym of colnames() for data.frame objects)
+  \item
+    rownames(ADSL) - returns the row names
+  \end{itemize}
+\item
+  Summary:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    str(ADSL) - structure of the object and information about the class, length and content of each column
+  \item
+    summary(ADSL) - summary statistics for each column
+  \end{itemize}
+\end{itemize}
+
+Note: most of these functions are ``generic'', they can be used on other types of objects besides \texttt{data.frame}.
+
+\hypertarget{exersize}{%
+\section{Exersize}\label{exersize}}
+
+Based on the output of \texttt{str(ADSL)}, can you answer the following questions?
+
+\begin{itemize}
+\tightlist
+\item
+  What is the class of the object ADSL?
+\item
+  How many rows and how many columns are in this object?
+\end{itemize}
+
+\hypertarget{indexing-and-subsetting-data-frames}{%
+\section{Indexing and Subsetting Data Frames}\label{indexing-and-subsetting-data-frames}}
+
+Our data frame has rows and columns (it has 2 dimensions), if we want to extract some specific data from it, we need to specify the ``coordinates'' we want from it. Row numbers come first, followed by column numbers. However, note that different ways of specifying these coordinates lead to results with different classes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ADVS <-}\StringTok{ }\KeywordTok{read_xpt}\NormalTok{(}\StringTok{"data_raw/adae.xpt"}\NormalTok{)}
-\KeywordTok{head}\NormalTok{(ADVS)}
+\CommentTok{# first element in the first column of the data frame (as a vector)}
+\NormalTok{ADSL[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{]   }
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 6 x 55
-##   STUDYID SITEID USUBJID TRTA  TRTAN   AGE AGEGR1 AGEGR1N RACE  RACEN SEX  
-##   <chr>   <chr>  <chr>   <chr> <dbl> <dbl> <chr>    <dbl> <chr> <dbl> <chr>
-## 1 CDISCP~ 701    01-701~ Plac~     0    63 <65          1 WHITE     1 F    
-## 2 CDISCP~ 701    01-701~ Plac~     0    63 <65          1 WHITE     1 F    
-## 3 CDISCP~ 701    01-701~ Plac~     0    63 <65          1 WHITE     1 F    
-## 4 CDISCP~ 701    01-701~ Plac~     0    64 <65          1 WHITE     1 M    
-## 5 CDISCP~ 701    01-701~ Plac~     0    64 <65          1 WHITE     1 M    
-## 6 CDISCP~ 701    01-701~ Plac~     0    64 <65          1 WHITE     1 M    
-## # ... with 44 more variables: SAFFL <chr>, TRTSDT <date>, TRTEDT <date>,
-## #   ASTDT <date>, ASTDTF <chr>, ASTDY <dbl>, AENDT <date>, AENDY <dbl>,
-## #   ADURN <dbl>, ADURU <chr>, AETERM <chr>, AELLT <chr>, AELLTCD <dbl>,
-## #   AEDECOD <chr>, AEPTCD <dbl>, AEHLT <chr>, AEHLTCD <dbl>, AEHLGT <chr>,
-## #   AEHLGTCD <dbl>, AEBODSYS <chr>, AESOC <chr>, AESOCCD <dbl>, AESEV <chr>,
-## #   AESER <chr>, AESCAN <chr>, AESCONG <chr>, AESDISAB <chr>, AESDTH <chr>,
-## #   AESHOSP <chr>, AESLIFE <chr>, AESOD <chr>, AEREL <chr>, AEACN <chr>,
-## #   AEOUT <chr>, AESEQ <dbl>, TRTEMFL <chr>, AOCCFL <chr>, AOCCSFL <chr>,
-## #   AOCCPFL <chr>, AOCC02FL <chr>, AOCC03FL <chr>, AOCC04FL <chr>,
-## #   CQ01NAM <chr>, AOCC01FL <chr>
+## # A tibble: 1 x 1
+##   STUDYID     
+##   <chr>       
+## 1 CDISCPILOT01
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(ADVS)}
+\CommentTok{# first element in the 6th column (as a vector)}
+\NormalTok{ADSL[}\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{]   }
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##    STUDYID             SITEID            USUBJID              TRTA          
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##      TRTAN            AGE           AGEGR1             AGEGR1N     
-##  Min.   : 0.00   Min.   :51.00   Length:1191        Min.   :1.000  
-##  1st Qu.: 0.00   1st Qu.:69.50   Class :character   1st Qu.:2.000  
-##  Median :54.00   Median :77.00   Mode  :character   Median :2.000  
-##  Mean   :50.67   Mean   :74.82                      Mean   :2.131  
-##  3rd Qu.:81.00   3rd Qu.:81.00                      3rd Qu.:3.000  
-##  Max.   :81.00   Max.   :89.00                      Max.   :3.000  
-##                                                                    
-##      RACE               RACEN           SEX               SAFFL          
-##  Length:1191        Min.   :1.000   Length:1191        Length:1191       
-##  Class :character   1st Qu.:1.000   Class :character   Class :character  
-##  Mode  :character   Median :1.000   Mode  :character   Mode  :character  
-##                     Mean   :1.139                                        
-##                     3rd Qu.:1.000                                        
-##                     Max.   :6.000                                        
-##                                                                          
-##      TRTSDT               TRTEDT               ASTDT           
-##  Min.   :2012-07-09   Min.   :2012-08-28   Min.   :1994-04-01  
-##  1st Qu.:2013-01-25   1st Qu.:2013-05-23   1st Qu.:2013-03-04  
-##  Median :2013-05-20   Median :2013-09-26   Median :2013-06-30  
-##  Mean   :2013-06-05   Mean   :2013-10-04   Mean   :2013-07-09  
-##  3rd Qu.:2013-10-24   3rd Qu.:2014-02-20   3rd Qu.:2013-11-27  
-##  Max.   :2014-09-02   Max.   :2015-03-05   Max.   :2014-11-03  
-##                                            NA's   :11          
-##     ASTDTF              ASTDY              AENDT                AENDY       
-##  Length:1191        Min.   :-6970.00   Min.   :2012-08-03   Min.   : -2.00  
-##  Class :character   1st Qu.:   15.00   1st Qu.:2013-03-20   1st Qu.: 27.00  
-##  Mode  :character   Median :   31.50   Median :2013-07-08   Median : 53.00  
-##                     Mean   :   34.22   Mean   :2013-08-03   Mean   : 67.14  
-##                     3rd Qu.:   63.00   3rd Qu.:2013-12-14   3rd Qu.:101.25  
-##                     Max.   :  194.00   Max.   :2014-10-31   Max.   :211.00  
-##                     NA's   :11         NA's   :473          NA's   :473     
-##      ADURN           ADURU              AETERM             AELLT          
-##  Min.   :  1.00   Length:1191        Length:1191        Length:1191       
-##  1st Qu.:  2.00   Class :character   Class :character   Class :character  
-##  Median : 11.00   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   : 23.84                                                           
-##  3rd Qu.: 27.00                                                           
-##  Max.   :444.00                                                           
-##  NA's   :477                                                              
-##     AELLTCD       AEDECOD              AEPTCD        AEHLT          
-##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
-##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
-##  Median : NA    Mode  :character   Median : NA    Mode  :character  
-##  Mean   :NaN                       Mean   :NaN                      
-##  3rd Qu.: NA                       3rd Qu.: NA                      
-##  Max.   : NA                       Max.   : NA                      
-##  NA's   :1191                      NA's   :1191                     
-##     AEHLTCD        AEHLGT             AEHLGTCD      AEBODSYS        
-##  Min.   : NA    Length:1191        Min.   : NA    Length:1191       
-##  1st Qu.: NA    Class :character   1st Qu.: NA    Class :character  
-##  Median : NA    Mode  :character   Median : NA    Mode  :character  
-##  Mean   :NaN                       Mean   :NaN                      
-##  3rd Qu.: NA                       3rd Qu.: NA                      
-##  Max.   : NA                       Max.   : NA                      
-##  NA's   :1191                      NA's   :1191                     
-##     AESOC              AESOCCD        AESEV              AESER          
-##  Length:1191        Min.   : NA    Length:1191        Length:1191       
-##  Class :character   1st Qu.: NA    Class :character   Class :character  
-##  Mode  :character   Median : NA    Mode  :character   Mode  :character  
-##                     Mean   :NaN                                         
-##                     3rd Qu.: NA                                         
-##                     Max.   : NA                                         
-##                     NA's   :1191                                        
-##     AESCAN            AESCONG            AESDISAB            AESDTH         
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    AESHOSP            AESLIFE             AESOD              AEREL          
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##     AEACN              AEOUT               AESEQ         TRTEMFL         
-##  Length:1191        Length:1191        Min.   : 1.00   Length:1191       
-##  Class :character   Class :character   1st Qu.: 2.00   Class :character  
-##  Mode  :character   Mode  :character   Median : 4.00   Mode  :character  
-##                                        Mean   : 4.53                     
-##                                        3rd Qu.: 6.00                     
-##                                        Max.   :23.00                     
-##                                                                          
-##     AOCCFL            AOCCSFL            AOCCPFL            AOCC02FL        
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-##                                                                             
-##    AOCC03FL           AOCC04FL           CQ01NAM            AOCC01FL        
-##  Length:1191        Length:1191        Length:1191        Length:1191       
-##  Class :character   Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-##                                                                             
-##                                                                             
-##                                                                             
-## 
+## # A tibble: 1 x 1
+##   ARM    
+##   <chr>  
+## 1 Placebo
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# first column of the data frame (as a vector)}
+\NormalTok{ADSL[, }\DecValTok{1}\NormalTok{] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 254 x 1
+##    STUDYID     
+##    <chr>       
+##  1 CDISCPILOT01
+##  2 CDISCPILOT01
+##  3 CDISCPILOT01
+##  4 CDISCPILOT01
+##  5 CDISCPILOT01
+##  6 CDISCPILOT01
+##  7 CDISCPILOT01
+##  8 CDISCPILOT01
+##  9 CDISCPILOT01
+## 10 CDISCPILOT01
+## # ... with 244 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# first column of the data frame (as a data.frame)}
+\NormalTok{ADSL[}\DecValTok{1}\NormalTok{]    }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 254 x 1
+##    STUDYID     
+##    <chr>       
+##  1 CDISCPILOT01
+##  2 CDISCPILOT01
+##  3 CDISCPILOT01
+##  4 CDISCPILOT01
+##  5 CDISCPILOT01
+##  6 CDISCPILOT01
+##  7 CDISCPILOT01
+##  8 CDISCPILOT01
+##  9 CDISCPILOT01
+## 10 CDISCPILOT01
+## # ... with 244 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# first three elements in the 7th column (as a vector)}
+\NormalTok{ADSL[}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{, }\DecValTok{7}\NormalTok{] }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 1
+##   TRT01P              
+##   <chr>               
+## 1 Placebo             
+## 2 Placebo             
+## 3 Xanomeline High Dose
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# the 3rd row of the data frame (as a data.frame)}
+\NormalTok{ADSL[}\DecValTok{3}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 48
+##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
+##   <chr>   <chr>   <chr>  <chr>  <chr>   <chr> <chr>    <dbl> <chr>    <dbl>
+## 1 CDISCP~ 01-701~ 1028   701    701     Xano~ Xanom~      81 Xanom~      81
+## # ... with 38 more variables: TRTSDT <date>, TRTEDT <date>, TRTDURD <dbl>,
+## #   AVGDD <dbl>, CUMDOSE <dbl>, AGE <dbl>, AGEGR1 <chr>, AGEGR1N <dbl>,
+## #   AGEU <chr>, RACE <chr>, RACEN <dbl>, SEX <chr>, ETHNIC <chr>, SAFFL <chr>,
+## #   ITTFL <chr>, EFFFL <chr>, COMP8FL <chr>, COMP16FL <chr>, COMP24FL <chr>,
+## #   DISCONFL <chr>, DSRAEFL <chr>, DTHFL <chr>, BMIBL <dbl>, BMIBLGR1 <chr>,
+## #   HEIGHTBL <dbl>, WEIGHTBL <dbl>, EDUCLVL <dbl>, DISONDT <date>,
+## #   DURDIS <dbl>, DURDSGR1 <chr>, VISIT1DT <date>, RFSTDTC <chr>,
+## #   RFENDTC <chr>, VISNUMEN <dbl>, RFENDT <date>, DCDECOD <chr>, DCSREAS <chr>,
+## #   MMSETOT <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# equivalent to head_ADSL <- head(ADSL)}
+\NormalTok{head_ADSL <-}\StringTok{ }\NormalTok{ADSL[}\DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, ] }
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{:} is a special function that creates numeric vectors of integers in increasing or decreasing order, test \texttt{1:10} and \texttt{10:1} for instance.
+
+You can also exclude certain indices of a data frame using the \texttt{-} sign:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL[, }\DecValTok{-1}\NormalTok{]          }\CommentTok{# The whole data frame, except the first column}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 254 x 47
+##    USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN TRTSDT    
+##    <chr>   <chr>  <chr>  <chr>   <chr> <chr>    <dbl> <chr>    <dbl> <date>    
+##  1 01-701~ 1015   701    701     Plac~ Place~       0 Place~       0 2014-01-02
+##  2 01-701~ 1023   701    701     Plac~ Place~       0 Place~       0 2012-08-05
+##  3 01-701~ 1028   701    701     Xano~ Xanom~      81 Xanom~      81 2013-07-19
+##  4 01-701~ 1033   701    701     Xano~ Xanom~      54 Xanom~      54 2014-03-18
+##  5 01-701~ 1034   701    701     Xano~ Xanom~      81 Xanom~      81 2014-07-01
+##  6 01-701~ 1047   701    701     Plac~ Place~       0 Place~       0 2013-02-12
+##  7 01-701~ 1097   701    701     Xano~ Xanom~      54 Xanom~      54 2014-01-01
+##  8 01-701~ 1111   701    701     Xano~ Xanom~      54 Xanom~      54 2012-09-07
+##  9 01-701~ 1115   701    701     Xano~ Xanom~      54 Xanom~      54 2012-11-30
+## 10 01-701~ 1118   701    701     Plac~ Place~       0 Place~       0 2014-03-12
+## # ... with 244 more rows, and 37 more variables: TRTEDT <date>, TRTDURD <dbl>,
+## #   AVGDD <dbl>, CUMDOSE <dbl>, AGE <dbl>, AGEGR1 <chr>, AGEGR1N <dbl>,
+## #   AGEU <chr>, RACE <chr>, RACEN <dbl>, SEX <chr>, ETHNIC <chr>, SAFFL <chr>,
+## #   ITTFL <chr>, EFFFL <chr>, COMP8FL <chr>, COMP16FL <chr>, COMP24FL <chr>,
+## #   DISCONFL <chr>, DSRAEFL <chr>, DTHFL <chr>, BMIBL <dbl>, BMIBLGR1 <chr>,
+## #   HEIGHTBL <dbl>, WEIGHTBL <dbl>, EDUCLVL <dbl>, DISONDT <date>,
+## #   DURDIS <dbl>, DURDSGR1 <chr>, VISIT1DT <date>, RFSTDTC <chr>,
+## #   RFENDTC <chr>, VISNUMEN <dbl>, RFENDT <date>, DCDECOD <chr>, DCSREAS <chr>,
+## #   MMSETOT <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL[}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{7}\OperatorTok{:}\DecValTok{254}\NormalTok{), ]   }\CommentTok{# Equivalent to head(surveys)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 48
+##   STUDYID USUBJID SUBJID SITEID SITEGR1 ARM   TRT01P TRT01PN TRT01A TRT01AN
+##   <chr>   <chr>   <chr>  <chr>  <chr>   <chr> <chr>    <dbl> <chr>    <dbl>
+## 1 CDISCP~ 01-701~ 1015   701    701     Plac~ Place~       0 Place~       0
+## 2 CDISCP~ 01-701~ 1023   701    701     Plac~ Place~       0 Place~       0
+## 3 CDISCP~ 01-701~ 1028   701    701     Xano~ Xanom~      81 Xanom~      81
+## 4 CDISCP~ 01-701~ 1033   701    701     Xano~ Xanom~      54 Xanom~      54
+## 5 CDISCP~ 01-701~ 1034   701    701     Xano~ Xanom~      81 Xanom~      81
+## 6 CDISCP~ 01-701~ 1047   701    701     Plac~ Place~       0 Place~       0
+## # ... with 38 more variables: TRTSDT <date>, TRTEDT <date>, TRTDURD <dbl>,
+## #   AVGDD <dbl>, CUMDOSE <dbl>, AGE <dbl>, AGEGR1 <chr>, AGEGR1N <dbl>,
+## #   AGEU <chr>, RACE <chr>, RACEN <dbl>, SEX <chr>, ETHNIC <chr>, SAFFL <chr>,
+## #   ITTFL <chr>, EFFFL <chr>, COMP8FL <chr>, COMP16FL <chr>, COMP24FL <chr>,
+## #   DISCONFL <chr>, DSRAEFL <chr>, DTHFL <chr>, BMIBL <dbl>, BMIBLGR1 <chr>,
+## #   HEIGHTBL <dbl>, WEIGHTBL <dbl>, EDUCLVL <dbl>, DISONDT <date>,
+## #   DURDIS <dbl>, DURDSGR1 <chr>, VISIT1DT <date>, RFSTDTC <chr>,
+## #   RFENDTC <chr>, VISNUMEN <dbl>, RFENDT <date>, DCDECOD <chr>, DCSREAS <chr>,
+## #   MMSETOT <dbl>
+\end{verbatim}
+
+Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL[}\StringTok{"ARM"}\NormalTok{]       }\CommentTok{# Result is a data.frame}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 254 x 1
+##    ARM                 
+##    <chr>               
+##  1 Placebo             
+##  2 Placebo             
+##  3 Xanomeline High Dose
+##  4 Xanomeline Low Dose 
+##  5 Xanomeline High Dose
+##  6 Placebo             
+##  7 Xanomeline Low Dose 
+##  8 Xanomeline Low Dose 
+##  9 Xanomeline Low Dose 
+## 10 Placebo             
+## # ... with 244 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL[, }\StringTok{"ARM"}\NormalTok{]     }\CommentTok{# Result is a vector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 254 x 1
+##    ARM                 
+##    <chr>               
+##  1 Placebo             
+##  2 Placebo             
+##  3 Xanomeline High Dose
+##  4 Xanomeline Low Dose 
+##  5 Xanomeline High Dose
+##  6 Placebo             
+##  7 Xanomeline Low Dose 
+##  8 Xanomeline Low Dose 
+##  9 Xanomeline Low Dose 
+## 10 Placebo             
+## # ... with 244 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL[[}\StringTok{"ARM"}\NormalTok{]]     }\CommentTok{# Result is a vector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] "Placebo"              "Placebo"              "Xanomeline High Dose"
+##   [4] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+##   [7] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+##  [10] "Placebo"              "Placebo"              "Xanomeline High Dose"
+##  [13] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+##  [16] "Xanomeline High Dose" "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [19] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+##  [22] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+##  [25] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline High Dose"
+##  [28] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+##  [31] "Placebo"              "Xanomeline High Dose" "Placebo"             
+##  [34] "Xanomeline High Dose" "Placebo"              "Placebo"             
+##  [37] "Placebo"              "Xanomeline Low Dose"  "Placebo"             
+##  [40] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [43] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [46] "Placebo"              "Placebo"              "Xanomeline Low Dose" 
+##  [49] "Placebo"              "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+##  [52] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [55] "Xanomeline High Dose" "Placebo"              "Xanomeline High Dose"
+##  [58] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+##  [61] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+##  [64] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline High Dose"
+##  [67] "Xanomeline High Dose" "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [70] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+##  [73] "Placebo"              "Xanomeline Low Dose"  "Placebo"             
+##  [76] "Xanomeline High Dose" "Placebo"              "Xanomeline High Dose"
+##  [79] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline High Dose"
+##  [82] "Placebo"              "Placebo"              "Placebo"             
+##  [85] "Placebo"              "Placebo"              "Xanomeline Low Dose" 
+##  [88] "Placebo"              "Placebo"              "Xanomeline Low Dose" 
+##  [91] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+##  [94] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+##  [97] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+## [100] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [103] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [106] "Placebo"              "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [109] "Xanomeline Low Dose"  "Placebo"              "Placebo"             
+## [112] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+## [115] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+## [118] "Xanomeline Low Dose"  "Placebo"              "Placebo"             
+## [121] "Xanomeline Low Dose"  "Placebo"              "Xanomeline High Dose"
+## [124] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [127] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+## [130] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+## [133] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [136] "Xanomeline Low Dose"  "Placebo"              "Xanomeline High Dose"
+## [139] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [142] "Xanomeline High Dose" "Placebo"              "Xanomeline Low Dose" 
+## [145] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [148] "Placebo"              "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [151] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [154] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+## [157] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [160] "Xanomeline High Dose" "Placebo"              "Placebo"             
+## [163] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+## [166] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [169] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [172] "Placebo"              "Xanomeline Low Dose"  "Placebo"             
+## [175] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+## [178] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [181] "Placebo"              "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [184] "Xanomeline High Dose" "Placebo"              "Xanomeline Low Dose" 
+## [187] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [190] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+## [193] "Xanomeline High Dose" "Placebo"              "Placebo"             
+## [196] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+## [199] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+## [202] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [205] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [208] "Xanomeline High Dose" "Placebo"              "Xanomeline Low Dose" 
+## [211] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [214] "Placebo"              "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [217] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [220] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [223] "Xanomeline Low Dose"  "Placebo"              "Xanomeline High Dose"
+## [226] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+## [229] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+## [232] "Xanomeline High Dose" "Placebo"              "Xanomeline High Dose"
+## [235] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+## [238] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [241] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [244] "Xanomeline High Dose" "Placebo"              "Placebo"             
+## [247] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+## [250] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+## [253] "Xanomeline High Dose" "Xanomeline High Dose"
+## attr(,"label")
+## [1] "Description of Planned Arm"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ADSL}\OperatorTok{$}\NormalTok{ARM          }\CommentTok{# Result is a vector}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] "Placebo"              "Placebo"              "Xanomeline High Dose"
+##   [4] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+##   [7] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+##  [10] "Placebo"              "Placebo"              "Xanomeline High Dose"
+##  [13] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+##  [16] "Xanomeline High Dose" "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [19] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+##  [22] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+##  [25] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline High Dose"
+##  [28] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+##  [31] "Placebo"              "Xanomeline High Dose" "Placebo"             
+##  [34] "Xanomeline High Dose" "Placebo"              "Placebo"             
+##  [37] "Placebo"              "Xanomeline Low Dose"  "Placebo"             
+##  [40] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [43] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [46] "Placebo"              "Placebo"              "Xanomeline Low Dose" 
+##  [49] "Placebo"              "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+##  [52] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [55] "Xanomeline High Dose" "Placebo"              "Xanomeline High Dose"
+##  [58] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+##  [61] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+##  [64] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline High Dose"
+##  [67] "Xanomeline High Dose" "Xanomeline High Dose" "Xanomeline Low Dose" 
+##  [70] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+##  [73] "Placebo"              "Xanomeline Low Dose"  "Placebo"             
+##  [76] "Xanomeline High Dose" "Placebo"              "Xanomeline High Dose"
+##  [79] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline High Dose"
+##  [82] "Placebo"              "Placebo"              "Placebo"             
+##  [85] "Placebo"              "Placebo"              "Xanomeline Low Dose" 
+##  [88] "Placebo"              "Placebo"              "Xanomeline Low Dose" 
+##  [91] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+##  [94] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+##  [97] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+## [100] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [103] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [106] "Placebo"              "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [109] "Xanomeline Low Dose"  "Placebo"              "Placebo"             
+## [112] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+## [115] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+## [118] "Xanomeline Low Dose"  "Placebo"              "Placebo"             
+## [121] "Xanomeline Low Dose"  "Placebo"              "Xanomeline High Dose"
+## [124] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [127] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+## [130] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+## [133] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [136] "Xanomeline Low Dose"  "Placebo"              "Xanomeline High Dose"
+## [139] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [142] "Xanomeline High Dose" "Placebo"              "Xanomeline Low Dose" 
+## [145] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [148] "Placebo"              "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [151] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [154] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+## [157] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [160] "Xanomeline High Dose" "Placebo"              "Placebo"             
+## [163] "Placebo"              "Xanomeline High Dose" "Xanomeline High Dose"
+## [166] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [169] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [172] "Placebo"              "Xanomeline Low Dose"  "Placebo"             
+## [175] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+## [178] "Placebo"              "Xanomeline High Dose" "Xanomeline Low Dose" 
+## [181] "Placebo"              "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [184] "Xanomeline High Dose" "Placebo"              "Xanomeline Low Dose" 
+## [187] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [190] "Xanomeline High Dose" "Xanomeline High Dose" "Placebo"             
+## [193] "Xanomeline High Dose" "Placebo"              "Placebo"             
+## [196] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+## [199] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+## [202] "Xanomeline High Dose" "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [205] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [208] "Xanomeline High Dose" "Placebo"              "Xanomeline Low Dose" 
+## [211] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [214] "Placebo"              "Xanomeline Low Dose"  "Xanomeline High Dose"
+## [217] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [220] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Placebo"             
+## [223] "Xanomeline Low Dose"  "Placebo"              "Xanomeline High Dose"
+## [226] "Xanomeline High Dose" "Xanomeline Low Dose"  "Placebo"             
+## [229] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+## [232] "Xanomeline High Dose" "Placebo"              "Xanomeline High Dose"
+## [235] "Xanomeline Low Dose"  "Xanomeline High Dose" "Xanomeline High Dose"
+## [238] "Placebo"              "Placebo"              "Xanomeline High Dose"
+## [241] "Xanomeline Low Dose"  "Xanomeline Low Dose"  "Xanomeline Low Dose" 
+## [244] "Xanomeline High Dose" "Placebo"              "Placebo"             
+## [247] "Xanomeline Low Dose"  "Placebo"              "Xanomeline Low Dose" 
+## [250] "Xanomeline Low Dose"  "Xanomeline High Dose" "Placebo"             
+## [253] "Xanomeline High Dose" "Xanomeline High Dose"
+## attr(,"label")
+## [1] "Description of Planned Arm"
+\end{verbatim}
+
+\hypertarget{exercise-1}{%
+\section{Exercise}\label{exercise-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Ceate a \texttt{data.frame} (\texttt{ADSL\_50}) containing only the data in row 50 of the \texttt{ADSL} dataset.
+\item
+  Notice how nrow() gave you the number of rows in a data.frame?
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Use that number to pull out just that last row in the data frame.
+\item
+  Compare that with what you see as the last row using \texttt{tail()} to make sure it's meeting expectations.
+\item
+  Pull out that last row using \texttt{nrow()} instead of the row number.
+\item
+  Create a new data frame (\texttt{ADSL\_last}) from that last row.
+\item
+  Use \texttt{nrow()} to extract the row that is in the middle of the data frame. Store the content of this row in an object named \texttt{ADSL\_middle}.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Combine \texttt{nrow()} with the \texttt{-} notation above to reproduce the behavior of head(ADSL), keeping just the first through 6th rows of the ADSL dataset.
+\end{enumerate}
+
+\hypertarget{factors}{%
+\section{Factors}\label{factors}}
 
 \hypertarget{manipulating-data}{%
 \chapter{Manipulating Data}\label{manipulating-data}}
